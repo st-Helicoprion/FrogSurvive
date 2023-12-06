@@ -95,10 +95,10 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _Noise_Scale: 30
+    - _Noise_Scale: 35
     - _Noise_Strength: 200
     - _OcclusionStrength: 1
-    - _Outline_Thickness: 10
+    - _Outline_Thickness: 3
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
