@@ -30,13 +30,22 @@ public class PlayerHealthManager : MonoBehaviour
     void Update()
     {
         LimitPlayerHealth();
-        PlayerHealthDecay();
+        if(!PlayerStateManager.isUnderwater)
+        {
+         PlayerHealthDecay();
+
+        }
+        else
+        {
+            FullHealPlayer();
+        }
 
     }
 
     void LimitPlayerHealth()
     {
         playerHealth = Mathf.Clamp(playerHealth, 0, 150);
+        healthbar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerHealth);
     }
 
     void PlayerHealthDecay()
@@ -50,6 +59,11 @@ public class PlayerHealthManager : MonoBehaviour
             PlayerStateManager.isDead = true;
         }
 
-        healthbar.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerHealth);
+        
+    }
+
+    void FullHealPlayer()
+    {
+        playerHealth += 15*Time.deltaTime;
     }
 }

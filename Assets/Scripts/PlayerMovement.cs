@@ -3,22 +3,27 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
 using System;
-using Mono.Cecil;
 
 public class PlayerMovement : MonoBehaviour
 {
     public Transform mainCamera;
     public Rigidbody rb;
-    public float moveSpeed, speedMultiplier;
-    public bool isPC, isPhone;
+    public float moveSpeed, speedMultiplier, airTime;
+    public bool isPC;
     public static bool isGrounded, isUnderwater;
     public static event Action movePlayer;
+    public Joystick joystick;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         movePlayer = PCControlInputs;
+        if (Application.isMobilePlatform)
+        {
+            isPC = false;
+        }
+        else isPC= true;
     }
 
     // Update is called once per frame
@@ -28,43 +33,47 @@ public class PlayerMovement : MonoBehaviour
         if(isPC)
         { movePlayer?.Invoke(); }       */
 
-        PCControlInputs();
-        PhoneControlInputs();
+        if(isPC)
+        {
+            PCControlInputs();
+        }
+        else PhoneControlInputs();
+
         CheckGravityMultiplier();
         
     }
 
     void PCControlInputs()
     {
-        Debug.Log("Player can now move");
-        
+            float zMove = Input.GetAxis("Vertical");
+            float xMove = Input.GetAxis("Horizontal");
 
-        float zMove = Input.GetAxis("Vertical");
-        float xMove = Input.GetAxis("Horizontal");
+            Vector3 playerMoveDir = mainCamera.forward * zMove + mainCamera.right * xMove;
 
-        Vector3 playerMoveDir = mainCamera.forward * zMove + mainCamera.right * xMove;
-
-        Vector3 upwardForce = 5 * moveSpeed * Vector3.up;
-        
-        if (xMove != 0 || zMove != 0)//direction of view
-        {
-            rb.transform.forward = playerMoveDir;
-            upwardForce = Vector3.zero;
-
-            if (isGrounded)//register movement input when not airborne
+            if (xMove != 0 || zMove != 0)//direction of view
             {
-                upwardForce = 5 * moveSpeed * Vector3.up;
-            }
+                rb.transform.forward = playerMoveDir;
+                Vector3 upwardForce = Vector3.zero;
 
-            rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce);
-        }
-        else return;
+                if (isGrounded)//register movement input when not airborne
+                {
+                    upwardForce = 5 * moveSpeed * Vector3.up;
+                }
+
+                rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce);
+            }
+            else return;
 
     }
 
+    IEnumerator SwitchToUnderwater()
+    {
+        yield return new WaitForSeconds(1);
+        rb.useGravity = false;
+    }
     void CheckGravityMultiplier()
     {
-        if (isGrounded)
+        if (isGrounded||isUnderwater)
         {
             rb.drag = 2.5f;
         }
@@ -77,26 +86,42 @@ public class PlayerMovement : MonoBehaviour
             else rb.drag = 0;
 
         }
+
+        if(!isGrounded&&!isUnderwater)
+        {
+            airTime += Time.deltaTime;
+
+            if(airTime>3)
+            {
+                airTime = 0;
+                rb.useGravity=true;
+                rb.AddForce(0, 0.5f*-speedMultiplier*moveSpeed, 0.5f*speedMultiplier*moveSpeed);
+            }
+        }
     }
 
     void PhoneControlInputs()
     {
-        float screenWidth = Screen.width;
+            joystick.gameObject.SetActive(true);
 
-        if(Input.touchCount>0)
-        {
-            Touch touch = Input.GetTouch(0);
-            if (touch.position.x < screenWidth / 2)
+            float zMove = joystick.Vertical;
+            float xMove = joystick.Horizontal;
+
+            Vector3 playerMoveDir = mainCamera.forward * zMove + mainCamera.right * xMove;
+
+            if (xMove != 0 || zMove != 0)//direction of view
             {
-                Debug.Log("right screen touched");
-            }
-            else if (touch.position.x > screenWidth / 2)
-            {
-                Debug.Log("left screen touched");
+                rb.transform.forward = playerMoveDir;
+                Vector3 upwardForce = Vector3.zero;
+
+                if (isGrounded)//register movement input when not airborne
+                {
+                    upwardForce = 5 * moveSpeed * Vector3.up;
+                }
+
+                rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce);
             }
             else return;
-        }
-
         
     }
 
@@ -113,6 +138,25 @@ public class PlayerMovement : MonoBehaviour
         if (collision.transform.CompareTag("Ground"))
         {
             isGrounded = false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Lake"))
+        {
+           isUnderwater= true;
+            StartCoroutine(SwitchToUnderwater());
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Lake"))
+        {
+            isUnderwater = false;
+            rb.useGravity = true;
+            
         }
     }
 

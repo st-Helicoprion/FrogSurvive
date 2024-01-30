@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerSonarManager : MonoBehaviour
 {
+    public Transform player;
     public int sonarIndex;
     public Slider sonarSlider;
     public Image sonarSliderGraphic;
@@ -12,12 +13,13 @@ public class PlayerSonarManager : MonoBehaviour
     public float sonarCooldown, sonarCounter;
     public GameObject[] sonars;
     public float[] sonarRanges;
+    public static bool sonarReleased;
 
     // Start is called before the first frame update
     void Start()
     {
         sonarCounter = sonarCooldown;
-        sonarSliderGraphic.enabled = false;
+        sonarSliderGraphic.gameObject.SetActive(false);
         sonarSlider.interactable = false;
     }
 
@@ -30,19 +32,29 @@ public class PlayerSonarManager : MonoBehaviour
         {
             ReleaseSonar();
         }
+
+        if(Input.GetKeyDown(KeyCode.Joystick1Button5)|| Input.GetKeyDown(KeyCode.Joystick1Button4))
+        {
+            if(sonarIndex>-1)
+            {
+                StartCoroutine(SonarSliderAnimation());
+            }
+            
+        }
     }
 
     void SonarLifeCycle()
     {
+
         sonarCounter -= Time.deltaTime;
 
         if(sonarCounter<0&&sonarIndex<2)
         {
               IncreaseSonarIndex();
-              sonarCounter = sonarCooldown;
+              
         }
 
-        if(sonarIndex==2)
+        if(sonarIndex ==2)
         {
             sonarCounter = sonarCooldown;
         }
@@ -50,8 +62,10 @@ public class PlayerSonarManager : MonoBehaviour
 
     void ReleaseSonar()
     {
+        sonarReleased = true;
         for(int i = 0;i<=sonarIndex;i++)
         {
+            sonars[i].transform.position = player.position;
             StartCoroutine(IncreaseSonarSize(i));
             DisableSonarSlider();
         }
@@ -65,17 +79,21 @@ public class PlayerSonarManager : MonoBehaviour
         {
             sonars[sonarIndex].transform.localScale += new Vector3(0.5f, 0.5f, 0.5f)*(sonarIndex+1);
             Color sonarColor = sonars[sonarIndex].GetComponent<Renderer>().material.color;
-            
-                sonarColor.a -= 0.0025f;
-           
+            if(sonarColor.a > 0)
+            {
+                sonarColor.a -= 0.007f;
+            }
             sonars[sonarIndex].GetComponent<Renderer>().material.color = sonarColor;
             yield return null;
-        }
+
+        } yield return null;
+        ReloadSonar(sonarIndex);
     }
 
-    void FadeOutSonar(int sonarIndex)
-    { 
-       sonars[sonarIndex].transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+    void ReloadSonar(int sonarIndex)
+    {
+        
+        sonars[sonarIndex].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
         Color sonarColor = sonars[sonarIndex].GetComponent<Renderer>().material.color;
         sonarColor.a = 1;
         sonars[sonarIndex].GetComponent<Renderer>().material.color = sonarColor;
@@ -83,21 +101,33 @@ public class PlayerSonarManager : MonoBehaviour
 
     void DisableSonarSlider()
     {
+       
         sonarSlider.value= 0;
         sonarSlider.interactable= false;
-        sonarSliderGraphic.enabled= false;
+        sonarSliderGraphic.gameObject.SetActive(false);
         sonarCounter = sonarCooldown;
+        sonarReleased= false;
+    }
+
+    public void IncreaseSonarIndex()
+    {
+        sonarIndex++;
+        sonarCounter = sonarCooldown;
+        sonarSlider.interactable= true;
+        sonarSliderGraphic.sprite = sonarStageGraphic[sonarIndex];
+        sonarSliderGraphic.gameObject.SetActive(true);
+
+        ReloadSonar(sonarIndex);
 
     }
 
-    void IncreaseSonarIndex()
+    IEnumerator SonarSliderAnimation()
     {
-        sonarIndex++;
-        sonarSlider.interactable= true;
-        sonarSliderGraphic.sprite = sonarStageGraphic[sonarIndex];
-        sonarSliderGraphic.enabled= true;
-
-        FadeOutSonar(sonarIndex);
-
+        while(sonarSlider.value<1)
+        {
+            sonarSlider.value += 12.5f*Time.deltaTime;
+            yield return null;
+        }
+        DisableSonarSlider();
     }
 }
