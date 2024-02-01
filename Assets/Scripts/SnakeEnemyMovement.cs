@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class SnakeEnemyMovement : MonoBehaviour
 {
-    public Transform playerPos;
-    public Rigidbody snakeRB;
+    public Transform playerPos, snakeHead;
+    public Rigidbody rb;
+    public float moveSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +21,7 @@ public class SnakeEnemyMovement : MonoBehaviour
 
     void MoveToCheck()
     {
-        snakeRB.AddForce(transform.forward * 10000);
+        rb.AddForce(transform.forward * moveSpeed);
     }
 
     void CheckLeft()
@@ -33,8 +34,34 @@ public class SnakeEnemyMovement : MonoBehaviour
 
     }
 
+    IEnumerator RespondToSonar()
+    {
+        float moveToPlayerCount = 4;
+        while (moveToPlayerCount > 0)
+        {
+
+            print("detected");
+            moveToPlayerCount--;
+
+            snakeHead.LookAt(playerPos);
+            Vector3 direction = playerPos.position - transform.position;
+            transform.forward = direction;
+            rb.AddForce(0.01f * moveSpeed * direction);
+            yield return null;
+        }
+
+    }
+
     IEnumerator NormalSlither()
     {
         yield return null;
     }
-}
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Sonar"))
+            {
+                StartCoroutine(RespondToSonar());
+            }
+        }
+    }

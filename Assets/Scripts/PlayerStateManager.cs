@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerStateManager : MonoBehaviour
 {
     public static bool isDead, isUnderwater;
-    public bool speedUp, poisonUp;
+    public static bool speedUp, poisonUp;
     public GameObject waterParticle;
     public TextMeshProUGUI stateText;
     public PlayerMovement playerMovement; public MeshRenderer[] mRenderer;
@@ -45,12 +45,21 @@ public class PlayerStateManager : MonoBehaviour
            
         }
 
-        if(poisonUp)
+        if (poisonUp)
         {
             stateMaterials = new Material[] { playerMaterials[0], playerMaterials[2] };
             mRenderer[0].materials = stateMaterials;
             mRenderer[1].materials = stateMaterials;
+
+
         }
+        else
+        {
+            stateMaterials = new Material[] { playerMaterials[0], playerMaterials[1] };
+            mRenderer[0].materials = stateMaterials;
+            mRenderer[1].materials = stateMaterials;
+        }
+
 
         if (isDead)
         {

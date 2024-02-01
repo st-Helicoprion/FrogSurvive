@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerHealthManager : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class PlayerHealthManager : MonoBehaviour
 
     public RectTransform healthbar;
     public float playerHealth;
+    public VolumeProfile volumeProfile;
 
     private void Awake()
     {
@@ -23,21 +26,26 @@ public class PlayerHealthManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+       if(volumeProfile.TryGet<Vignette>(out Vignette vignette))
+        {
+            vignette.intensity.value = 0;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         LimitPlayerHealth();
-        if(!PlayerStateManager.isUnderwater)
+        if(!PlayerStateManager.isDead)
         {
-         PlayerHealthDecay();
-
-        }
-        else
-        {
-            FullHealPlayer();
+            if(!PlayerStateManager.isUnderwater)
+            {
+                PlayerHealthDecay();
+            }
+            else
+            {
+                FullHealPlayer();
+            }
         }
 
     }

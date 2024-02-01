@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4319943081115020344}
   m_Layer: 0
   m_Name: Rock_LOD4
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 6578111976778761340}
   m_Layer: 0
   m_Name: Rock 7
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -171,9 +171,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1916988807192416354}
   - component: {fileID: 1916988807192416349}
+  - component: {fileID: 1449477422056303663}
   m_Layer: 0
   m_Name: Colliders
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202,10 +203,23 @@ BoxCollider:
   m_GameObject: {fileID: 1916988807192416355}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2.173077, z: 2}
+  m_Center: {x: 0, y: 0.946538, z: 0}
+--- !u!135 &1449477422056303663
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916988807192416355}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0.86, z: 0}
+  m_Radius: 1.3556364
+  m_Center: {x: 0, y: 0.85563564, z: 0}
 --- !u!1 &2039521294497320697
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +233,7 @@ GameObject:
   - component: {fileID: 8467449552072317347}
   m_Layer: 0
   m_Name: Rock_LOD5
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -302,7 +316,7 @@ GameObject:
   - component: {fileID: 2456142328636986868}
   m_Layer: 0
   m_Name: Rock_LOD3
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -385,7 +399,7 @@ GameObject:
   - component: {fileID: 7454189814056185359}
   m_Layer: 0
   m_Name: Rock_LOD1
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -468,7 +482,7 @@ GameObject:
   - component: {fileID: 1813731740539341254}
   m_Layer: 0
   m_Name: Rock_LOD0
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -551,7 +565,7 @@ GameObject:
   - component: {fileID: 1264202186070058449}
   m_Layer: 0
   m_Name: Rock_LOD2
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

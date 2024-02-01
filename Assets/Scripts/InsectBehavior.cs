@@ -13,14 +13,12 @@ public class InsectBehavior : MonoBehaviour
     public int behaviorColorID, behaviorNameID;
 
     public PlayerMovement playerMovement;
-    public PlayerStateManager playerState;
     public PlayerSonarManager playerSonar;
     public PlayerHealthManager playerHealth;
 
     private void Awake()
     {
         playerMovement = FindObjectOfType<PlayerMovement>();
-        playerState = FindObjectOfType<PlayerStateManager>();
         playerSonar = FindObjectOfType<PlayerSonarManager>();
         playerHealth= FindObjectOfType<PlayerHealthManager>();
     }
@@ -40,7 +38,7 @@ public class InsectBehavior : MonoBehaviour
         {
             behaviorColorID = 2;
             behaviorNameID = 2;
-            playerState.speedUp = true;
+            PlayerStateManager.speedUp = true;
         }
         else if(insectType==InsectType.BabySpider)
         {
@@ -52,7 +50,7 @@ public class InsectBehavior : MonoBehaviour
         {
             behaviorColorID = 4;
             behaviorNameID = 4;
-            playerState.poisonUp = true;
+            PlayerStateManager.poisonUp = true;
         }
     }
 

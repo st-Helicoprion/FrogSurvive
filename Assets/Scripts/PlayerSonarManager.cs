@@ -13,7 +13,7 @@ public class PlayerSonarManager : MonoBehaviour
     public float sonarCooldown, sonarCounter;
     public GameObject[] sonars;
     public float[] sonarRanges;
-    public static bool sonarReleased;
+  
 
     // Start is called before the first frame update
     void Start()
@@ -62,7 +62,7 @@ public class PlayerSonarManager : MonoBehaviour
 
     void ReleaseSonar()
     {
-        sonarReleased = true;
+      
         for(int i = 0;i<=sonarIndex;i++)
         {
             sonars[i].transform.position = player.position;
@@ -101,12 +101,11 @@ public class PlayerSonarManager : MonoBehaviour
 
     void DisableSonarSlider()
     {
-       
         sonarSlider.value= 0;
         sonarSlider.interactable= false;
         sonarSliderGraphic.gameObject.SetActive(false);
         sonarCounter = sonarCooldown;
-        sonarReleased= false;
+      
     }
 
     public void IncreaseSonarIndex()
@@ -128,6 +127,8 @@ public class PlayerSonarManager : MonoBehaviour
             sonarSlider.value += 12.5f*Time.deltaTime;
             yield return null;
         }
-        DisableSonarSlider();
+        sonarSlider.value= 0;
+       
+
     }
 }
