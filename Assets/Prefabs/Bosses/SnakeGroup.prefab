@@ -1458,7 +1458,7 @@ GameObject:
   - component: {fileID: 3036796176299781004}
   - component: {fileID: 3036796176299781005}
   - component: {fileID: 6811836482474016810}
-  - component: {fileID: 2841730829760123586}
+  - component: {fileID: 6713230177530726802}
   m_Layer: 0
   m_Name: SnakeBody (9)
   m_TagString: Untagged
@@ -1596,7 +1596,7 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!96 &2841730829760123586
+--- !u!96 &6713230177530726802
 TrailRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
@@ -1638,7 +1638,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 7
+  m_Time: 20
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 2.22116

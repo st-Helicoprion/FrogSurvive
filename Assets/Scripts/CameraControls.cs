@@ -9,8 +9,9 @@ public class CameraControls : MonoBehaviour
     public float chaseSpeed, rotSpeed;
     public float XRot, YRot;
     public Vector2 turn;
-    public bool isPC;
+    public bool isPC, isFree;
     public Joystick joystick;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,15 +28,10 @@ public class CameraControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //mainCamera.transform.LookAt(mainCamTarget);
-
-        //keep camera at certain distance from player
-        /*Vector3 offset = mainCamTarget.parent.transform.position + new Vector3(0, 1.5f, -1*distToCam);
-        float distance = Vector3.Distance(mainCamera.transform.position, offset);
-        mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, offset, distance*Time.deltaTime);
-*/
-        
-
+        if (isFree)
+        {
+            StopHuggingplayer();
+        }
     }
 
     private void LateUpdate()
@@ -83,7 +79,7 @@ public class CameraControls : MonoBehaviour
             YRot += turn.x;
             mainCamTarget.localRotation = Quaternion.Euler(XRot, YRot, 0);
 
-            XRot = Mathf.Clamp(XRot, -90, 90);
+            XRot = Mathf.Clamp(XRot, -60, 30);
 
       
 
@@ -102,7 +98,43 @@ public class CameraControls : MonoBehaviour
             YRot += turn.x;
             mainCamTarget.localRotation = Quaternion.Euler(XRot, YRot, 0);
 
-            XRot = Mathf.Clamp(XRot, -90, 90);
+            XRot = Mathf.Clamp(XRot, -60, 30);
       
     }
+
+   void CameraHugPlayer()
+    {
+        if(mainCamera.transform.localPosition.z<-2)
+        {
+            mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, new Vector3(0, 0, -2),2*Time.deltaTime);
+
+        }
+    }
+
+    void StopHuggingplayer()
+    {
+      if(mainCamera.transform.localPosition.z>-6)
+        {
+            mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, new Vector3(0, 2, -6), 2*Time.deltaTime);
+        }
+           
+      
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            isFree = false;
+            CameraHugPlayer();
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            isFree = true;
+        }
+    }
+
 }
