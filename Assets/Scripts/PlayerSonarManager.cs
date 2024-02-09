@@ -13,6 +13,7 @@ public class PlayerSonarManager : MonoBehaviour
     public float sonarCooldown, sonarCounter;
     public GameObject[] sonars;
     public float[] sonarRanges;
+    public AudioSource sonarAudioSource;
   
 
     // Start is called before the first frame update
@@ -62,8 +63,11 @@ public class PlayerSonarManager : MonoBehaviour
 
     void ReleaseSonar()
     {
-      
-        for(int i = 0;i<=sonarIndex;i++)
+        PlayerMovement playerMove = player.GetComponent<PlayerMovement>();
+        playerMove.rb.AddForce(50*(sonarIndex+1) * playerMove.moveSpeed * Vector3.up);
+        sonarAudioSource.pitch = 2;
+        sonarAudioSource.Play();
+        for (int i = 0;i<=sonarIndex;i++)
         {
             sonars[i].transform.position = player.position;
             StartCoroutine(IncreaseSonarSize(i));

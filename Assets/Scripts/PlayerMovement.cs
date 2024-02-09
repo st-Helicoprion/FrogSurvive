@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
-using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,14 +10,16 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed, speedMultiplier, airTime;
     public bool isPC;
     public static bool isGrounded, isUnderwater;
-    public static event Action movePlayer;
     public Joystick joystick;
+
+    public AudioSource playerAudioSource;
+    public AudioClip footstepAudio;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        movePlayer = PCControlInputs;
+      
         if (Application.isMobilePlatform)
         {
             isPC = false;
@@ -29,9 +30,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        /*if (Input.GetMouseButton(0)) isPC = true;
-        if(isPC)
-        { movePlayer?.Invoke(); }       */
 
         if(isPC)
         {
@@ -130,6 +128,8 @@ public class PlayerMovement : MonoBehaviour
         if(collision.transform.CompareTag("Ground"))
         {
             isGrounded = true;
+
+           
         }
     }
 
@@ -138,6 +138,12 @@ public class PlayerMovement : MonoBehaviour
         if (collision.transform.CompareTag("Ground"))
         {
             isGrounded = false;
+            if (!playerAudioSource.isPlaying)
+            {
+                playerAudioSource.pitch = Random.Range(1, 1.2f);
+                playerAudioSource.PlayOneShot(footstepAudio);
+
+            }
         }
     }
 

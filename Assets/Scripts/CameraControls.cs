@@ -28,10 +28,10 @@ public class CameraControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isFree)
+       /* if (isFree)
         {
             StopHuggingplayer();
-        }
+        }*/
     }
 
     private void LateUpdate()
@@ -41,7 +41,7 @@ public class CameraControls : MonoBehaviour
         if (mainCamTarget.position != playerPos.position + offset)
         {
             chaseSpeed += Time.deltaTime;
-            mainCamTarget.position = Vector3.Lerp(mainCamTarget.position, playerPos.position+offset, chaseSpeed*Time.deltaTime);
+            mainCamTarget.position = Vector3.Lerp(mainCamTarget.position, playerPos.position+offset, chaseSpeed*Time.deltaTime*Vector3.Distance(mainCamTarget.position, playerPos.position+offset));
 
         }
         else chaseSpeed = 0;
@@ -79,7 +79,7 @@ public class CameraControls : MonoBehaviour
             YRot += turn.x;
             mainCamTarget.localRotation = Quaternion.Euler(XRot, YRot, 0);
 
-            XRot = Mathf.Clamp(XRot, -60, 30);
+            XRot = Mathf.Clamp(XRot, -90, 90);
 
       
 
@@ -98,7 +98,7 @@ public class CameraControls : MonoBehaviour
             YRot += turn.x;
             mainCamTarget.localRotation = Quaternion.Euler(XRot, YRot, 0);
 
-            XRot = Mathf.Clamp(XRot, -60, 30);
+            XRot = Mathf.Clamp(XRot, -90, 90);
       
     }
 
@@ -106,7 +106,7 @@ public class CameraControls : MonoBehaviour
     {
         if(mainCamera.transform.localPosition.z<-2)
         {
-            mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, new Vector3(0, 0, -2),2*Time.deltaTime);
+            mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, new Vector3(0, 0, -2),3*Time.deltaTime);
 
         }
     }
@@ -115,13 +115,13 @@ public class CameraControls : MonoBehaviour
     {
       if(mainCamera.transform.localPosition.z>-6)
         {
-            mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, new Vector3(0, 2, -6), 2*Time.deltaTime);
+            mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, new Vector3(0, 2, -6), 3*Time.deltaTime);
         }
            
       
     }
 
-    private void OnTriggerStay(Collider other)
+  /*  private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Ground"))
         {
@@ -135,6 +135,6 @@ public class CameraControls : MonoBehaviour
         {
             isFree = true;
         }
-    }
+    }*/
 
 }

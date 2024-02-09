@@ -414,11 +414,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8383825232571796201}
-  - component: {fileID: 6468330749121886548}
-  - component: {fileID: 6991929983174521794}
+  - component: {fileID: 2971149909717974942}
+  - component: {fileID: 8600597563481290638}
   m_Layer: 0
   m_Name: Colliders (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -438,7 +438,7 @@ Transform:
   m_Father: {fileID: 6776909121897445125}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &6468330749121886548
+--- !u!135 &2971149909717974942
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -449,9 +449,9 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3.9016168
-  m_Center: {x: 0, y: 3.4016168, z: 0}
---- !u!135 &6991929983174521794
+  m_Radius: 4
+  m_Center: {x: 0, y: 2.96, z: 0}
+--- !u!135 &8600597563481290638
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -462,8 +462,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.1228218
-  m_Center: {x: 0.02, y: 8.81, z: 0}
+  m_Radius: 2
+  m_Center: {x: 0, y: 8.92, z: 0}
 --- !u!1 &6145085122203708863
 GameObject:
   m_ObjectHideFlags: 0

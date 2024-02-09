@@ -5,31 +5,37 @@ using UnityEngine;
 public class SnakeEnemyMovement : MonoBehaviour
 {
     public Transform playerPos, snakeHead;
-    public Rigidbody rb;
-    public float moveSpeed;
+    public Rigidbody rb, tailRb;
+    public float moveSpeed, slitherOffset,
+                 attackInterval, attackCountdown,
+                 slitherInterval, slitherCountdown,
+                 locateInterval, locateCountdown;
+    public static bool recoverAfterAttack, alert;
+    public PuddleRandomizer waterMap;
+    public Transform[] lakeMap;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerPos = GameObject.Find("Player").transform;
+        waterMap = FindObjectOfType<PuddleRandomizer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveToCheck();
+        GroundSticking();
     }
 
-    void MoveToCheck()
+    void GroundSticking()
     {
-        rb.AddForce(transform.forward * moveSpeed);
+        rb.AddForce(4*moveSpeed * transform.forward);
+        rb.AddForce(moveSpeed * Vector3.down);
+        tailRb.AddForce(moveSpeed * Vector3.down);
+       
     }
 
-    void CheckLeft()
-    {
-
-    }
-
-    void CheckRight()
+    void AnimateSnakeMovement()
     {
 
     }
@@ -52,16 +58,16 @@ public class SnakeEnemyMovement : MonoBehaviour
 
     }
 
-    IEnumerator NormalSlither()
+    IEnumerator SlitherAnimation()
     {
         yield return null;
     }
 
-        private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Sonar"))
         {
-            if (other.CompareTag("Sonar"))
-            {
-                StartCoroutine(RespondToSonar());
-            }
+            StartCoroutine(RespondToSonar());
         }
+    }
     }

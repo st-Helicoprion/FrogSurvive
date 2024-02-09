@@ -16,7 +16,7 @@ public class OwlEnemyMovement : MonoBehaviour
     public PuddleRandomizer waterMap;
     public Transform[] lakeMap;
     public Vector2 huntRadiusRange;
-    public float[] wingAngles;
+
 
     // Start is called before the first frame update
     void Start()
@@ -97,6 +97,7 @@ public class OwlEnemyMovement : MonoBehaviour
             owlHead.LookAt(playerPos);
             Vector3 direction = playerPos.position - transform.position;
             transform.forward = direction;
+           
             rb.AddForce(0.01f*moveSpeed * direction);
             yield return null;
         }
@@ -109,6 +110,7 @@ public class OwlEnemyMovement : MonoBehaviour
 
         Vector3 direction = playerPos.position - transform.position;
         transform.forward = direction;
+      
         rb.AddForce(1.5f*moveSpeed * direction);
 
         print("attack");
@@ -179,6 +181,7 @@ public class OwlEnemyMovement : MonoBehaviour
                 Vector3 direction = destination - transform.position;
                 owlHead.localRotation = Quaternion.Euler(-80, 0, 0);
                 transform.localRotation = Quaternion.Euler(90, 0, Vector3.Angle(transform.localPosition,destination));
+                
                 rb.AddForce(0.001f * moveSpeed * direction);
                 yield return null;
             }
@@ -201,11 +204,6 @@ public class OwlEnemyMovement : MonoBehaviour
         {
             StartCoroutine(RespondToSonar());
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.localPosition, huntRadius);
     }
 
 }

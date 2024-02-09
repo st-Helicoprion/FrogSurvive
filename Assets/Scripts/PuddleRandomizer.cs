@@ -59,8 +59,8 @@ public class PuddleRandomizer : MonoBehaviour
         for (int i = 0; i < puddles.Length; i++)
         {
             yield return new WaitForSeconds(0.5f);
-            float randX = UnityEngine.Random.Range(-60, 60); 
-            float randZ = UnityEngine.Random.Range(-60, 60);
+            float randX = UnityEngine.Random.Range(-140, 140); 
+            float randZ = UnityEngine.Random.Range(-140, 140);
             if (!puddleScripts[i].isFound)
             {
                 puddles[i].transform.position = new Vector3(playerPos.position.x, 0, playerPos.position.z) + new Vector3(randX, -2, randZ);

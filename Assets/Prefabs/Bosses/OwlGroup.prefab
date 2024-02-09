@@ -131,7 +131,7 @@ MonoBehaviour:
   bossType: 1
   playerHealth: {fileID: 0}
   damage: 50
-  volumeProfile: {fileID: 0}
+  volumeProfile: {fileID: 11400000, guid: eedffeb681c50e64e9aecb85801e83d7, type: 2}
 --- !u!59 &2582717892931506672
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -795,8 +795,8 @@ HingeJoint:
     freeSpin: 0
   m_UseLimits: 1
   m_Limits:
-    min: -90
-    max: 90
+    min: -30
+    max: 60
     bounciness: 0
     bounceMinVelocity: 0.2
     contactDistance: 0
@@ -1135,8 +1135,8 @@ HingeJoint:
     freeSpin: 0
   m_UseLimits: 1
   m_Limits:
-    min: -90
-    max: 90
+    min: -60
+    max: 30
     bounciness: 0
     bounceMinVelocity: 0.2
     contactDistance: 0
@@ -1277,6 +1277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPos: {fileID: 0}
   owlHead: {fileID: 4784407430474265958}
+  owlParent: {fileID: 4784407431095161063}
   huntRadius: 50
   moveSpeed: 25000
   attackInterval: 8

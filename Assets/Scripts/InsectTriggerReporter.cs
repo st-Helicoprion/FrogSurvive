@@ -11,7 +11,7 @@ public class InsectTriggerReporter : MonoBehaviour
         behavior.gameObject.SetActive(false);
     }
 
-    public void ApplyBehaviorToPlayer()
+    public void SaveBehaviorToBuffer()
     {
         behavior.CheckInsectType();
     }

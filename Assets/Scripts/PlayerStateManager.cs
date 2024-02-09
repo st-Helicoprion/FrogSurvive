@@ -15,6 +15,7 @@ public class PlayerStateManager : MonoBehaviour
     public Color[] stateColor;
     public string[] stateName;
     public float powerUpLifetime, powerUpCountdown;
+    public DigestPowerUpManager powerUpManager;
 
 
     private void Start()
@@ -40,7 +41,7 @@ public class PlayerStateManager : MonoBehaviour
 
         if(speedUp)
         {
-            playerMovement.speedMultiplier = 0.9f;
+            playerMovement.speedMultiplier = 1.25f;
             trail.startColor = stateColor[2];
            
         }
@@ -98,14 +99,14 @@ public class PlayerStateManager : MonoBehaviour
         poisonUp = false;
         speedUp = false;
         powerUpCountdown = powerUpLifetime;
-        playerMovement.speedMultiplier = 0.5f;
+        playerMovement.speedMultiplier = 0.75f;
         trail.startColor = stateColor[0];
         stateMaterials = new Material[] { playerMaterials[0], playerMaterials[1] };
         mRenderer[0].materials = stateMaterials;
         mRenderer[1].materials = stateMaterials;
     }
 
-    IEnumerator PowerUpPicked(int powTextID, int powColorID)
+    public IEnumerator PowerUpPicked(int powTextID, int powColorID)
     {
         powerUpCountdown= powerUpLifetime;
         stateText.enabled= true;
@@ -113,6 +114,7 @@ public class PlayerStateManager : MonoBehaviour
         stateText.color = stateColor[powColorID];
         yield return new WaitForSeconds(0.3f);
         StartCoroutine(StateTextAnimations());
+        
         
     }
 
@@ -128,6 +130,7 @@ public class PlayerStateManager : MonoBehaviour
         }
         stateText.enabled = false;
         stateText.characterSpacing = 0;
+       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -137,14 +140,14 @@ public class PlayerStateManager : MonoBehaviour
             HealPlayer(puddle.healAmount);
             puddle.DisablePuddle();
 
-            Instantiate(waterParticle, transform.position+new Vector3(0,1,0), Quaternion.identity);
+            Instantiate(waterParticle, transform.position, Quaternion.identity);
             
         }
 
         if(other.TryGetComponent(out InsectTriggerReporter insect))
         {
-            insect.ApplyBehaviorToPlayer();
-            StartCoroutine(PowerUpPicked(insect.behavior.behaviorNameID, insect.behavior.behaviorColorID));
+            insect.SaveBehaviorToBuffer();
+            powerUpManager.LoadPowerUpBuffer(insect);
             insect.DisableInsect();
         }
 

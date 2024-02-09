@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 9003361446155314940}
   - component: {fileID: 3869691606326441457}
   - component: {fileID: 175026074414245551}
+  - component: {fileID: 7848351344107453450}
   m_Layer: 0
   m_Name: Fish
   m_TagString: Untagged
@@ -268,6 +269,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7848351344107453450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2668968849260158390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dcb4ceb943554c488cafc50f1e41a05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPos: {fileID: 0}
+  fishHead: {fileID: 4052361907115039814}
+  rbArray:
+  - {fileID: 175026074414245551}
+  - {fileID: 3556433866227245058}
+  - {fileID: 996730373972516278}
+  moveSpeed: 25000
+  attackInterval: 0
+  attackCountdown: 0
+  swimInterval: 0
+  swimCountdown: 0
+  locateInterval: 0
+  locateCountdown: 0
+  lakeMap: []
 --- !u!1 &3123622863424852474
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,8 +667,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossType: 2
   playerHealth: {fileID: 0}
-  damage: 50
-  volumeProfile: {fileID: 0}
+  damage: 100
+  volumeProfile: {fileID: 11400000, guid: eedffeb681c50e64e9aecb85801e83d7, type: 2}
 --- !u!1 &7107772471123789453
 GameObject:
   m_ObjectHideFlags: 0

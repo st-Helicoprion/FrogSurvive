@@ -8,6 +8,8 @@ public class AppUtilsManager : MonoBehaviour
 {
     public bool isPaused;
     public GameObject settingsCanvas;
+    public AudioSource UIAudioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,15 +23,18 @@ public class AppUtilsManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Escape)||Input.GetKeyDown(KeyCode.Joystick1Button1))
         {
-           
-            if(!isPaused)
+            UIAudioSource.Play();
+            if (!isPaused)
             {
                 PauseGame();
             }
             else ResumeGame();
         }
         
-
+        if(PlayerStateManager.isDead)
+        {
+            PauseGame();
+        }
 
     }
 
@@ -47,9 +52,24 @@ public class AppUtilsManager : MonoBehaviour
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
 
     }
-    public void ExitApp()
+
+    public IEnumerator ExitButtonAnimations(TextMeshProUGUI text)
     {
+        Color animTextColor = text.color;
+        while (text.characterSpacing < 100)
+        {
+            text.characterSpacing += 150 * Time.unscaledDeltaTime;
+            animTextColor.a -= 1.5f * Time.unscaledDeltaTime;
+            text.color = animTextColor;
+            yield return null;
+        }
         Application.Quit();
+
+
+    }
+    public void ExitApp(TextMeshProUGUI text)
+    {
+       StartCoroutine(ExitButtonAnimations(text));
     }
 
     public void ResetGame(TextMeshProUGUI text)
@@ -61,6 +81,7 @@ public class AppUtilsManager : MonoBehaviour
     public void PauseGame()
     {
         isPaused = true;
+       
         Time.timeScale= 0;
         settingsCanvas.SetActive(true);
     }
@@ -71,4 +92,5 @@ public class AppUtilsManager : MonoBehaviour
         Time.timeScale= 1;
         settingsCanvas.SetActive(false);
     }
+
 }
