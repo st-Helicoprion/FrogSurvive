@@ -19,6 +19,12 @@ public class BossWeaponHitReporter : MonoBehaviour
             OwlEnemyMovement.recoverAfterAttack = true;
             OwlEnemyMovement.hitAltitude = transform.position;
         }
+
+        if(bossType== BossType.Snake||bossType==BossType.Fish) 
+        {
+            SnakeEnemyMovement.recoverAfterAttack= true;
+            
+        }
     }
 
     void DamagePlayerHealth()
@@ -52,7 +58,7 @@ public class BossWeaponHitReporter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ground") || other.CompareTag("Lake"))
+        if (other.CompareTag("Ground"))
         {
             GroundCollisionResponseByType();
         }
@@ -71,5 +77,8 @@ public class BossWeaponHitReporter : MonoBehaviour
             }
 
         }
+
+   
     }
+
 }

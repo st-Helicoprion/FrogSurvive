@@ -132,6 +132,8 @@ MonoBehaviour:
   playerHealth: {fileID: 0}
   damage: 50
   volumeProfile: {fileID: 11400000, guid: eedffeb681c50e64e9aecb85801e83d7, type: 2}
+  orientation: 0
+  newRotation: {x: 0, y: 0, z: 0}
 --- !u!59 &2582717892931506672
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -831,8 +833,8 @@ Transform:
   m_GameObject: {fileID: 4784407431095161062}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4784407432199918613}
   - {fileID: 4784407431824425807}
@@ -1277,7 +1279,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPos: {fileID: 0}
   owlHead: {fileID: 4784407430474265958}
-  owlParent: {fileID: 4784407431095161063}
   huntRadius: 50
   moveSpeed: 25000
   attackInterval: 8
@@ -1296,7 +1297,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   huntRadiusRange: {x: 50, y: 100}
-  wingAngles: []
 --- !u!1 &4784407432436927325
 GameObject:
   m_ObjectHideFlags: 0

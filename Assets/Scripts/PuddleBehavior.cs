@@ -36,8 +36,8 @@ public class PuddleBehavior : MonoBehaviour
         {
             if (hit.transform.CompareTag("Ground") || hit.transform.CompareTag("Puddle"))
             {
-                float randX = Random.Range(-5, 5);
-                float randZ = Random.Range(-5, 5);
+                float randX = Random.Range(-5, 6);
+                float randZ = Random.Range(-5, 6);
                 transform.position += new Vector3(randX, 0.25f, randZ);
 
             }

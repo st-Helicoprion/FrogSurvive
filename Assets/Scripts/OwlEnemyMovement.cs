@@ -113,9 +113,7 @@ public class OwlEnemyMovement : MonoBehaviour
       
         rb.AddForce(1.5f*moveSpeed * direction);
 
-        print("attack");
-
-        
+    
     }
 
     void FlyUpwards()
@@ -127,8 +125,6 @@ public class OwlEnemyMovement : MonoBehaviour
 
     IEnumerator RecoverAfterAttack()
     {
-        print("recovering");
-        
         yield return new WaitForSeconds(3);
         while(transform.localPosition.y<hitAltitude.y+5)
         { 
@@ -154,7 +150,7 @@ public class OwlEnemyMovement : MonoBehaviour
 
     void LocateWater()
     {
-        float destinationID = Random.Range(0, 1);
+        float destinationID = Random.Range(0, 2);
 
         if(destinationID == 0)
         {
@@ -171,8 +167,8 @@ public class OwlEnemyMovement : MonoBehaviour
 
     IEnumerator MoveToWater(Vector3 destination)
     {
-        float randX = Random.Range(-10, 10);
-        float randZ = Random.Range(-10, 10);
+        float randX = Random.Range(-10, 11);
+        float randZ = Random.Range(-10, 11);
 
         while(transform.position!=destination+new Vector3(randX,transform.position.y,randZ))
         {

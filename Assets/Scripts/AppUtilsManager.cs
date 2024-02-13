@@ -36,6 +36,11 @@ public class AppUtilsManager : MonoBehaviour
             PauseGame();
         }
 
+        /*if(!Application.isFocused)
+        {
+            PauseGame();
+        }*/
+
     }
 
     public IEnumerator RestartButtonAnimations(TextMeshProUGUI text)
