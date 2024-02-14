@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking.Types;
 using UnityEngine.UI;
 
 public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
@@ -38,12 +39,25 @@ public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointer
 
         if(isDown)
         {
-            powerUpRing.fillAmount -= 0.02f;
+            powerUpRing.fillAmount -= 0.05f;
         }
         else
         {
-            powerUpRing.fillAmount += 0.02f;
+            powerUpRing.fillAmount += 0.05f;
         }
+
+        if(!Application.isMobilePlatform)
+        {
+            if (Input.GetKey(KeyCode.Joystick1Button0))
+            {
+                AnimateDigest();
+            }
+            else
+            {
+                StopAnimateDigest();
+            }
+        }
+        
     }
 
     void SetRingColorAndShowUI()

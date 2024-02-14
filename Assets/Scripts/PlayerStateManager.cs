@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerStateManager : MonoBehaviour
 {
-    public static bool isDead, isUnderwater;
+    public static bool isDead, isUnderwater, win;
     public static bool speedUp, poisonUp;
     public GameObject waterParticle;
     public TextMeshProUGUI stateText;
@@ -67,6 +67,12 @@ public class PlayerStateManager : MonoBehaviour
             PlayerDeath();
         }
 
+        if(win)
+        {
+            TempEndGame();
+            isDead = true;
+        }
+
         Color dimmerTrailColor = trail.startColor;
         dimmerTrailColor.a = 0.35f;
         trail.startColor = dimmerTrailColor;
@@ -86,9 +92,17 @@ public class PlayerStateManager : MonoBehaviour
         playerMovement.enabled= false;
     }
 
+    void TempEndGame()
+    {
+        stateText.enabled = true;
+        stateText.text = stateName[5];
+        stateText.color = stateColor[0];
+        playerMovement.enabled = false;
+    }
     void ResetPlayerState()
     {
         isDead = false;
+        win= false;
         stateText.enabled = false;
         playerMovement.enabled = true;
         ResetPlayerPowerUp();

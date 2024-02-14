@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3233239247142899528
 Transform:
@@ -46,12 +46,13 @@ GameObject:
   - component: {fileID: 4075480522526301827}
   - component: {fileID: 1835551179315668770}
   - component: {fileID: 5402328462526132935}
+  - component: {fileID: 468054355}
   m_Layer: 0
   m_Name: LabEntrance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6003589566512127497
 Transform:
@@ -129,8 +130,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.5, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &468054355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6813067759071271864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3d45fe9312a98b40b3021dd742dff32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1396117537828160869
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189,6 +202,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 43a4d44e09d162e4f8592b14bc383f08, type: 3}
       propertyPath: m_TagString
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 43a4d44e09d162e4f8592b14bc383f08, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43a4d44e09d162e4f8592b14bc383f08, type: 3}
@@ -312,10 +329,14 @@ PrefabInstance:
     - target: {fileID: -6471036689783332660, guid: 4d6448b204f77af4aa002ad8aa25c048, type: 3}
       propertyPath: m_Materials.Array.data[19]
       value: 
-      objectReference: {fileID: 2100000, guid: 4309107af43c4c64e890dff19f4e5234, type: 2}
+      objectReference: {fileID: 2100000, guid: 62dd6947852dafe49b017a1e288a15f0, type: 2}
     - target: {fileID: -6345285779419725671, guid: 4d6448b204f77af4aa002ad8aa25c048, type: 3}
       propertyPath: m_TagString
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: -6345285779419725671, guid: 4d6448b204f77af4aa002ad8aa25c048, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4d6448b204f77af4aa002ad8aa25c048, type: 3}
       propertyPath: m_Name
@@ -324,6 +345,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4d6448b204f77af4aa002ad8aa25c048, type: 3}
       propertyPath: m_TagString
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4d6448b204f77af4aa002ad8aa25c048, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d6448b204f77af4aa002ad8aa25c048, type: 3}
@@ -456,6 +481,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e3f4fb64814eb1e40a93701543f04804, type: 3}
       propertyPath: m_TagString
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e3f4fb64814eb1e40a93701543f04804, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3f4fb64814eb1e40a93701543f04804, type: 3}

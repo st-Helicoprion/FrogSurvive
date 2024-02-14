@@ -38,7 +38,7 @@ public class PlayerHealthManager : MonoBehaviour
         LimitPlayerHealth();
         if(!PlayerStateManager.isDead)
         {
-            if(!PlayerStateManager.isUnderwater)
+            if(!PlayerStateManager.isUnderwater&& !RainManager.isRaining)
             {
                 PlayerHealthDecay();
             }
@@ -46,6 +46,7 @@ public class PlayerHealthManager : MonoBehaviour
             {
                 FullHealPlayer();
             }
+
         }
 
     }

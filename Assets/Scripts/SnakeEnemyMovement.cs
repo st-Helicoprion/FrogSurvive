@@ -106,14 +106,23 @@ public class SnakeEnemyMovement : MonoBehaviour
         print("alert");
         transform.LookAt(playerPos);
         rbArray[0].useGravity = false;
-        rbArray[0].AddForce(2*moveSpeed*Vector3.up);
-        rbArray[5].AddForce(2*moveSpeed * Vector3.down);
+        rbArray[0].AddForce(3*moveSpeed*Vector3.up);
+        rbArray[6].AddForce(2*moveSpeed * Vector3.down);
+
+        for(int i=7;i<rbArray.Length;i++)
+        {
+            rbArray[i].mass = 800;
+        }
     }
     IEnumerator RecoverAfterAttack()
     {
         rbArray[0].AddForce(10 * moveSpeed * -transform.forward);
         yield return new WaitForSeconds(2);
         alert = false;
+        for (int i = 7; i < rbArray.Length; i++)
+        {
+            rbArray[i].mass = 100;
+        }
 
         orientation = Random.Range(0, 5);
 

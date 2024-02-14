@@ -132,8 +132,6 @@ MonoBehaviour:
   playerHealth: {fileID: 0}
   damage: 50
   volumeProfile: {fileID: 11400000, guid: eedffeb681c50e64e9aecb85801e83d7, type: 2}
-  orientation: 0
-  newRotation: {x: 0, y: 0, z: 0}
 --- !u!59 &2582717892931506672
 HingeJoint:
   m_ObjectHideFlags: 0
