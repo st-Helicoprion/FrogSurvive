@@ -14,7 +14,6 @@ public class ButtonFeedbackManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(text.fontStyle);
         if (EventSystem.current.currentSelectedGameObject == this.gameObject)
         {
             text.color = stateColors[1];

@@ -23,7 +23,9 @@ public class SnakeEnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         rbArray[8].AddForce(4 * moveSpeed * Vector3.down);
+       
+        rbArray[12].AddForce(2 * moveSpeed * Vector3.down);
+        rbArray[16].AddForce(2 * moveSpeed * Vector3.down);
         CheckBody();
        
         if (recoverAfterAttack)
@@ -98,12 +100,11 @@ public class SnakeEnemyMovement : MonoBehaviour
         rbArray[8].AddForce(10 * moveSpeed * Vector3.down);
         rbArray[0].useGravity = true;
 
-        print("attack");
     }
 
     void SwitchToAlert()
     {
-        print("alert");
+       
         transform.LookAt(playerPos);
         rbArray[0].useGravity = false;
         rbArray[0].AddForce(3*moveSpeed*Vector3.up);
@@ -111,7 +112,7 @@ public class SnakeEnemyMovement : MonoBehaviour
 
         for(int i=7;i<rbArray.Length;i++)
         {
-            rbArray[i].mass = 800;
+            rbArray[i].mass = 500;
         }
     }
     IEnumerator RecoverAfterAttack()
@@ -146,8 +147,8 @@ public class SnakeEnemyMovement : MonoBehaviour
         {
             if (hit.transform.name == "SnakeBody")
             {
-                print("up we go");
-                rbArray[0].AddForce(2*moveSpeed * Vector3.up);
+               
+                rbArray[0].AddForce(4*moveSpeed * Vector3.up);
             }
             else return;
         }
@@ -157,8 +158,6 @@ public class SnakeEnemyMovement : MonoBehaviour
         float moveToPlayerCount = 4;
         while (moveToPlayerCount > 0)
         {
-
-            print("detected");
             moveToPlayerCount--;
 
             transform.LookAt(playerPos);

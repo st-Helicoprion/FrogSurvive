@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking.Types;
 using UnityEngine.UI;
+
 
 public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -29,34 +30,42 @@ public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointer
     // Update is called once per frame
     void Update()
     {
-        if(powerUpRing.fillAmount == 0)
-        {
-            powerUpRing.fillAmount = 1;
-            isDown= false;
-            digestUI.SetActive(false);
-            ActivatePowerUp();
-        }
 
-        if(isDown)
+        if (digestUI.activeInHierarchy)
         {
-            powerUpRing.fillAmount -= 0.05f;
-        }
-        else
-        {
-            powerUpRing.fillAmount += 0.05f;
-        }
-
-        if(!Application.isMobilePlatform)
-        {
-            if (Input.GetKey(KeyCode.Joystick1Button0))
+            if (powerUpRing.fillAmount == 0)
             {
-                AnimateDigest();
+                powerUpRing.fillAmount = 1;
+                isDown = false;
+                digestUI.SetActive(false);
+                ActivatePowerUp();
+            }
+
+            if (isDown)
+            {
+                powerUpRing.fillAmount -= 0.05f;
             }
             else
             {
-                StopAnimateDigest();
+                powerUpRing.fillAmount += 0.05f;
             }
+
+            string[] controllers = Input.GetJoystickNames();
+
+            if (controllers.First().Contains("Controller"))
+            {
+                if (Input.GetKey(KeyCode.Joystick1Button0))
+                {
+                    AnimateDigest();
+                }
+                else
+                {
+                    StopAnimateDigest();
+                }
+            }
+            else return;
         }
+        
         
     }
 
