@@ -6,7 +6,7 @@ using UnityEngine;
 public class RainManager : MonoBehaviour
 {
     public static bool isRaining;
-    public GameObject rain;
+    public RainScript rain;
     public float rainCheckInterval, rainCheckCountdown, rainLifetime;
     public int rainCheck;
    
@@ -34,29 +34,26 @@ public class RainManager : MonoBehaviour
 
     void RollForRain()
     {
-        rainCheck = Random.Range(0, 2);
+        rainCheck = Random.Range(0, 4);
         rainLifetime= Random.Range(30,241);
 
-        if(rainCheck==0)
-        {
-            StopRain();
-        }
-        if(rainCheck==1)
+        if (rainCheck == 1)
         {
             StartRain();
         }
+        else StopRain();
     }
 
     void StartRain()
     {
         isRaining = true;
-        rain.SetActive(true);
+        rain.RainIntensity=0.5f;
     }
 
     void StopRain()
     {
         isRaining = false;
-        rain.SetActive(false);
+        rain.RainIntensity=0;
         rainLifetime= 0;
     }
 }

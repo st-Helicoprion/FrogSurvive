@@ -12,8 +12,11 @@ public class PlayerMovement : MonoBehaviour
     public static bool isGrounded, isUnderwater;
     public Joystick joystick;
 
+    [Header("Audio")]
     public AudioSource playerAudioSource;
-    public AudioClip footstepAudio;
+    public AudioSource waterAudioSource;
+    public AudioClip footstepAudio, enterWaterAudio,
+                     exitWaterAudio, waterMoveAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
             isPC = false;
         }
         else isPC= true;
+
+        isUnderwater= false;
+        isGrounded= false;
     }
 
     // Update is called once per frame
@@ -38,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         else PhoneControlInputs();
 
         CheckGravityMultiplier();
-        
+        UnderwaterMovementAudio();
     }
 
     void PCControlInputs()
@@ -89,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         {
             airTime += Time.deltaTime;
 
-            if(airTime>3)
+            if(airTime>2)
             {
                 airTime = 0;
                 rb.useGravity=true;
@@ -123,6 +129,21 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    void UnderwaterMovementAudio()
+    {
+        if(isUnderwater)
+        {
+            if(Mathf.Abs(rb.velocity.z) >2)
+            {
+                if (!playerAudioSource.isPlaying)
+                {
+                    playerAudioSource.pitch = Random.Range(1, 1.2f);
+                    playerAudioSource.PlayOneShot(waterMoveAudio);
+
+                }
+            }
+        }
+    }
     private void OnCollisionStay(Collision collision)
     {
         if(collision.transform.CompareTag("Ground"))
@@ -141,6 +162,7 @@ public class PlayerMovement : MonoBehaviour
             if (!playerAudioSource.isPlaying)
             {
                 playerAudioSource.pitch = Random.Range(1, 1.2f);
+                playerAudioSource.volume = 0.5f;
                 playerAudioSource.PlayOneShot(footstepAudio);
 
             }
@@ -152,6 +174,13 @@ public class PlayerMovement : MonoBehaviour
         if(other.CompareTag("Lake"))
         {
            isUnderwater= true;
+            if (!waterAudioSource.isPlaying)
+            {   
+                waterAudioSource.pitch = Random.Range(1, 1.2f);
+                waterAudioSource.volume = 0.5f;
+                waterAudioSource.PlayOneShot(enterWaterAudio);
+
+            }
             StartCoroutine(SwitchToUnderwater());
         }
     }
@@ -162,7 +191,14 @@ public class PlayerMovement : MonoBehaviour
         {
             isUnderwater = false;
             rb.useGravity = true;
-            
+            if (!waterAudioSource.isPlaying)
+            {
+                waterAudioSource.pitch = Random.Range(1, 1.2f);
+                waterAudioSource.volume = 0.2f;
+                waterAudioSource.PlayOneShot(exitWaterAudio);
+
+            }
+
         }
     }
 

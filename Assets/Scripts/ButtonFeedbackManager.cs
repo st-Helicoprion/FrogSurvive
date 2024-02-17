@@ -25,6 +25,7 @@ public class ButtonFeedbackManager : MonoBehaviour
             text.fontStyle = FontStyles.UpperCase;
 
         }
+
     }
 
     void AnimateSelected()
@@ -45,5 +46,7 @@ public class ButtonFeedbackManager : MonoBehaviour
         }
         
     }
+
+  
 }
 

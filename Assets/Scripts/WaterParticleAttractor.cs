@@ -7,6 +7,9 @@ public class WaterParticleAttractor : MonoBehaviour
     public ParticleSystem pSystem;
     public ParticleSystem.Particle[] particles = new ParticleSystem.Particle[6];
     public Transform playerPos;
+    public AudioSource particleAudioSource;
+    public AudioClip puddleAudioClip;
+    public AudioClip particleAudioClip;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +19,9 @@ public class WaterParticleAttractor : MonoBehaviour
 
         playerPos = GameObject.Find("Player").transform;
 
-        
+        particleAudioSource.PlayOneShot(puddleAudioClip);
+
+
     }
 
     // Update is called once per frame
@@ -30,11 +35,14 @@ public class WaterParticleAttractor : MonoBehaviour
                 particles[i].position += 8*Time.deltaTime*((playerPos.position - particles[i].position) / (particles[i].remainingLifetime));
             }
                 pSystem.SetParticles(particles, length);
-        }
-            
+        } 
         
-      
-            
-        
+    }
+
+    private void OnParticleTrigger()
+    {
+        if(!particleAudioSource.isPlaying)
+        particleAudioSource.PlayOneShot(particleAudioClip);
+     
     }
 }

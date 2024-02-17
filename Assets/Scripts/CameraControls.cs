@@ -64,14 +64,14 @@ public class CameraControls : MonoBehaviour
 
             if(contX==0||contY==0)
             {
-                turn.x = mouseX * rotSpeed * Time.deltaTime;
-                turn.y = mouseY * rotSpeed * Time.deltaTime;
+                turn.x = mouseX * rotSpeed * Time.unscaledDeltaTime;
+                turn.y = mouseY * rotSpeed * Time.unscaledDeltaTime;
             }
             
             if(contX!=0||contY!=0) 
             {
-                turn.x = contX * rotSpeed * Time.deltaTime;
-                turn.y = -contY * rotSpeed * Time.deltaTime;
+                turn.x = contX * rotSpeed * Time.unscaledDeltaTime;
+                turn.y = contY * rotSpeed * Time.unscaledDeltaTime;
             }
             
 
@@ -92,8 +92,8 @@ public class CameraControls : MonoBehaviour
             float mouseX = joystick.Horizontal;
             float mouseY = joystick.Vertical;
 
-            turn.x = mouseX * rotSpeed * Time.deltaTime;
-            turn.y = mouseY * rotSpeed * Time.deltaTime;
+            turn.x = mouseX * rotSpeed * Time.unscaledDeltaTime;
+            turn.y = mouseY * rotSpeed * Time.unscaledDeltaTime;
             XRot -= turn.y;
             YRot += turn.x;
             mainCamTarget.localRotation = Quaternion.Euler(XRot, YRot, 0);

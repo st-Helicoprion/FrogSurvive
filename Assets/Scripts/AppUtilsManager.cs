@@ -1,16 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Android;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class AppUtilsManager : MonoBehaviour
 {
-    public static bool isPaused, enterDeath;
+    public static bool isPaused, enterDeath, UIFocused;
     public GameObject settingsCanvas, startButton, UILayer,
                       settingsFirst, deathFirst;
     public AudioSource UIAudioSource;
@@ -21,7 +18,7 @@ public class AppUtilsManager : MonoBehaviour
         Application.targetFrameRate = 60;
         PauseGame();
         enterDeath = false;
-        
+        UIFocused= false;
     }
 
     // Update is called once per frame
@@ -33,8 +30,16 @@ public class AppUtilsManager : MonoBehaviour
             if(!enterDeath)
             {
                 enterDeath= true;
+                UIFocused = false;
                ShowDeath();
             }
+
+            if (Input.GetAxis("Debug Vertical") < 0 && !UIFocused)
+            {
+                UIFocused = true;
+                EventSystem.current.SetSelectedGameObject(deathFirst);
+            }
+
         }
         else
         {
@@ -47,9 +52,19 @@ public class AppUtilsManager : MonoBehaviour
                 }
                 else ResumeGame();
             }
+
+            if(isPaused)
+            {
+                if (Input.GetAxis("Debug Vertical") < 0 && !UIFocused)
+                {
+                    UIFocused = true;
+                    EventSystem.current.SetSelectedGameObject(settingsFirst);
+                }
+            }
+
         }
 
-
+        
     }
 
     public IEnumerator RestartButtonAnimations(TextMeshProUGUI text)
@@ -120,7 +135,7 @@ public class AppUtilsManager : MonoBehaviour
         Time.timeScale= 0;
         settingsCanvas.SetActive(true);
         startButton.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(settingsFirst);
+       
     }
 
     public void ResumeGame()
@@ -137,8 +152,9 @@ public class AppUtilsManager : MonoBehaviour
         UILayer.SetActive(false);
         settingsCanvas.SetActive(true);
         startButton.SetActive(false);
-        EventSystem.current.SetSelectedGameObject(deathFirst);
+        EventSystem.current.SetSelectedGameObject(null);
     }
+
     private void OnApplicationPause(bool pause)
     {
         PauseGame();

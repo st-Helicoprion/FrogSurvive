@@ -16,6 +16,8 @@ public class OwlEnemyMovement : MonoBehaviour
     public PuddleRandomizer waterMap;
     public Transform[] lakeMap;
     public Vector2 huntRadiusRange;
+    public AudioSource owlAudioSource;
+    public AudioClip attackAudioClip;
 
 
     // Start is called before the first frame update
@@ -28,59 +30,65 @@ public class OwlEnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-
-        if (recoverAfterAttack)
+       if(!AppUtilsManager.isPaused)
         {
-            recoverAfterAttack = false;
-            StartCoroutine(RecoverAfterAttack());
-        }
-        else
-        {
-
-            flapCountdown -= Time.deltaTime;
-
-            if (flapCountdown < 0)
+            if (recoverAfterAttack)
             {
-                flapCountdown = flapInterval;
-                StartCoroutine(OwlWingAnimation());
-
+                recoverAfterAttack = false;
+                StartCoroutine(RecoverAfterAttack());
             }
-        }
-
-        if (Vector3.Distance(transform.position, playerPos.position) < huntRadius&&!alert)
-        {
-            alert = true;
-        }
-
-        if(alert)
-        {
-            SwitchToAlert();
-            attackCountdown -= Time.deltaTime;
-
-            if (attackCountdown < 0)
+            else
             {
-                AttackPlayer();
-            }
-        }
-        else
-        {
-            
-            owlHead.localRotation = Quaternion.Euler(0, 0, 0);
-            locateCountdown -= Time.deltaTime;
 
-            if (locateCountdown < 0)
+                flapCountdown -= Time.deltaTime;
+
+                if (flapCountdown < 0)
+                {
+                    flapCountdown = flapInterval;
+                    StartCoroutine(OwlWingAnimation());
+
+                }
+            }
+
+            if (Vector3.Distance(transform.position, playerPos.position) < huntRadius && !alert)
             {
-                locateCountdown = locateInterval;
-                LocateWater();
+                alert = true;
+                owlAudioSource.spatialBlend = 0.2f;
             }
+            else owlAudioSource.spatialBlend = 0.5f;
+
+            if (alert)
+            {
+                SwitchToAlert();
+                attackCountdown -= Time.deltaTime;
+
+                if (attackCountdown < 0)
+                {
+                    AttackPlayer();
+                }
+            }
+            else
+            {
+
+                owlHead.localRotation = Quaternion.Euler(0, 0, 0);
+                locateCountdown -= Time.deltaTime;
+
+                if (locateCountdown < 0)
+                {
+                    locateCountdown = locateInterval;
+                    LocateWater();
+                }
+            }
+
+            if (Vector3.Distance(transform.position, playerPos.position) > 150)
+            {
+                huntRadius = huntRadiusRange.y;
+                owlAudioSource.spatialBlend = 1;
+            }
+
         }
 
-        if (Vector3.Distance(transform.position, playerPos.position) > 150)
-        {
-            huntRadius = huntRadiusRange.y;
-        }
-        
+
 
     }
 
@@ -108,6 +116,8 @@ public class OwlEnemyMovement : MonoBehaviour
     {
         attackCountdown = attackInterval;
 
+        owlAudioSource.pitch = Random.Range(1, 1.3f);
+        owlAudioSource.PlayOneShot(attackAudioClip);
         Vector3 direction = playerPos.position - transform.position;
         transform.forward = direction;
       

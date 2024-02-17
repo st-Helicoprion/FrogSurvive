@@ -41,7 +41,7 @@ public class PlayerStateManager : MonoBehaviour
 
         if(speedUp)
         {
-            playerMovement.speedMultiplier = 1.25f;
+            playerMovement.speedMultiplier = 1.5f;
             trail.startColor = stateColor[2];
            
         }
@@ -113,7 +113,7 @@ public class PlayerStateManager : MonoBehaviour
         poisonUp = false;
         speedUp = false;
         powerUpCountdown = powerUpLifetime;
-        playerMovement.speedMultiplier = 0.75f;
+        playerMovement.speedMultiplier = 1;
         trail.startColor = stateColor[0];
         stateMaterials = new Material[] { playerMaterials[0], playerMaterials[1] };
         mRenderer[0].materials = stateMaterials;

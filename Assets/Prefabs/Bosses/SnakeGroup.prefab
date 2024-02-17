@@ -1447,6 +1447,7 @@ MonoBehaviour:
   locateCountdown: 0
   orientation: 0
   newRotation: {x: 0, y: 0, z: 0}
+  huntRadiusRange: {x: 50, y: 100}
 --- !u!1 &3036796175265416131
 GameObject:
   m_ObjectHideFlags: 0

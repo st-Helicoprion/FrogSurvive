@@ -13,6 +13,9 @@ public class SnakeEnemyMovement : MonoBehaviour
     public static bool recoverAfterAttack, alert, isGrounded, isUnderwater;
     public int orientation;
     public Vector3 newRotation;
+    public Vector2 huntRadiusRange;
+    public AudioSource snakeAudioSource;
+    public AudioClip attackAudioClip;
 
     // Start is called before the first frame update
     void Start()
@@ -23,56 +26,67 @@ public class SnakeEnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       if(!AppUtilsManager.isPaused)
+        {
+            rbArray[12].AddForce(2 * moveSpeed * Vector3.down);
+            rbArray[16].AddForce(2 * moveSpeed * Vector3.down);
+            CheckBody();
+
+            if (recoverAfterAttack)
+            {
+                recoverAfterAttack = false;
+                StartCoroutine(RecoverAfterAttack());
+            }
+            else
+            {
+                slitherCountdown -= Time.deltaTime;
+
+                if (slitherCountdown < 0)
+                {
+                    slitherCountdown = slitherInterval;
+                    StartCoroutine(SlitherAnimation());
+                }
+            }
+
+            if (Vector3.Distance(transform.position, playerPos.position) < huntRadius && !alert)
+            {
+                alert = true;
+                snakeAudioSource.spatialBlend = 0.2f;
+            }
+            else snakeAudioSource.spatialBlend = 0.5f;
+
+            if (alert)
+            {
+                SwitchToAlert();
+                attackCountdown -= Time.deltaTime;
+
+                if (attackCountdown < 0)
+                {
+                    AttackPlayer();
+                }
+            }
+            else
+            {
+                CheckGravityMultiplier();
+                GroundSticking();
+
+                rbArray[0].AddForce(6 * moveSpeed * transform.forward);
+
+                locateCountdown -= Time.deltaTime;
+
+                if (locateCountdown < 0)
+                {
+                    MoveToPlayer();
+                }
+            }
+
+            if (Vector3.Distance(transform.position, playerPos.position) > 150)
+            {
+                huntRadius = huntRadiusRange.y;
+                snakeAudioSource.spatialBlend = 1;
+            }
+        }
        
-        rbArray[12].AddForce(2 * moveSpeed * Vector3.down);
-        rbArray[16].AddForce(2 * moveSpeed * Vector3.down);
-        CheckBody();
-       
-        if (recoverAfterAttack)
-        {
-            recoverAfterAttack = false;
-            StartCoroutine(RecoverAfterAttack());
-        }
-        else
-        {
-            slitherCountdown -= Time.deltaTime;
-
-            if (slitherCountdown < 0)
-            {
-                slitherCountdown = slitherInterval;
-                StartCoroutine(SlitherAnimation());
-            }
-        }
-
-        if (Vector3.Distance(transform.position, playerPos.position) < huntRadius && !alert)
-        {
-            alert = true;
-        }
-
-        if (alert)
-        {
-            SwitchToAlert();
-            attackCountdown -= Time.deltaTime;
-
-            if (attackCountdown < 0)
-            {
-                AttackPlayer();
-            }
-        }
-        else
-        {
-            CheckGravityMultiplier();
-            GroundSticking();
-
-            rbArray[0].AddForce(6 * moveSpeed * transform.forward);
-
-            locateCountdown -= Time.deltaTime;
-
-            if(locateCountdown<0)
-            {
-                MoveToPlayer();
-            }
-        }
     }
 
     void GroundSticking()
@@ -96,6 +110,8 @@ public class SnakeEnemyMovement : MonoBehaviour
         attackCountdown = attackInterval;
         Vector3 direction = playerPos.position - transform.position;
 
+        snakeAudioSource.pitch = Random.Range(1, 1.3f);
+        snakeAudioSource.PlayOneShot(attackAudioClip);
         rbArray[0].AddForce(10*moveSpeed*direction);
         rbArray[8].AddForce(10 * moveSpeed * Vector3.down);
         rbArray[0].useGravity = true;
@@ -119,6 +135,7 @@ public class SnakeEnemyMovement : MonoBehaviour
     {
         rbArray[0].AddForce(10 * moveSpeed * -transform.forward);
         yield return new WaitForSeconds(2);
+        huntRadius = huntRadiusRange.x;
         alert = false;
         for (int i = 7; i < rbArray.Length; i++)
         {

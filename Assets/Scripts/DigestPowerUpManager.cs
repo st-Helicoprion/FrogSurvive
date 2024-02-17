@@ -16,6 +16,8 @@ public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointer
     public PlayerHealthManager playerHealth;
     public PlayerStateManager playerState;
     public bool isDown;
+    public AudioSource digestAudioSource;
+    public AudioClip digestAudioClip;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +33,7 @@ public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointer
     void Update()
     {
 
-        if (digestUI.activeInHierarchy)
+        if (digestUI.activeInHierarchy&&!AppUtilsManager.isPaused)
         {
             if (powerUpRing.fillAmount == 0)
             {
@@ -87,6 +89,7 @@ public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointer
 
     void ActivatePowerUp()
     {
+        digestAudioSource.PlayOneShot(digestAudioClip);
         StartCoroutine(playerState.PowerUpPicked(behaviorNameID,behaviorColorID));
 
         if(behaviorColorID == 1)

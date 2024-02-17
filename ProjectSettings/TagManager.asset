@@ -8,6 +8,7 @@ TagManager:
   - Lake
   - Ground
   - Sonar
+  - Button
   layers:
   - Default
   - TransparentFX
