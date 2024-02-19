@@ -54,7 +54,7 @@ public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointer
 
             string[] controllers = Input.GetJoystickNames();
 
-            if (controllers.First().Contains("Controller"))
+            if (controllers.Length>0&&controllers.First().Contains("Controller"))
             {
                 if (Input.GetKey(KeyCode.Joystick1Button0))
                 {

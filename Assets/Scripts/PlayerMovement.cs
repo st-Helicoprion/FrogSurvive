@@ -49,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
 
     void PCControlInputs()
     {
+            joystick.gameObject.SetActive(false);
+
             float zMove = Input.GetAxis("Vertical");
             float xMove = Input.GetAxis("Horizontal");
 

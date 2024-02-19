@@ -29,7 +29,6 @@ public class BossWeaponHitReporter : MonoBehaviour
 
     void DamagePlayerHealth()
     {
-        print("hit");
         playerHealth.playerHealth -= damage;
 
         
@@ -52,7 +51,6 @@ public class BossWeaponHitReporter : MonoBehaviour
 
     void RemovePlayerShield()
     {
-        print("armor removed");
         PlayerStateManager.poisonUp = false;
     }
 

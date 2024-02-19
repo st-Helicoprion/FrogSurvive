@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class AppUtilsManager : MonoBehaviour
 {
     public static bool isPaused, enterDeath, UIFocused;
-    public GameObject settingsCanvas, startButton, UILayer,
+    public GameObject settingsCanvas, UILayer,
                       settingsFirst, deathFirst;
     public AudioSource UIAudioSource;
 
@@ -34,7 +34,7 @@ public class AppUtilsManager : MonoBehaviour
                ShowDeath();
             }
 
-            if (Input.GetAxis("Debug Vertical") < 0 && !UIFocused)
+            if (Input.GetAxisRaw("Debug Vertical") != 0 && !UIFocused)
             {
                 UIFocused = true;
                 EventSystem.current.SetSelectedGameObject(deathFirst);
@@ -55,7 +55,7 @@ public class AppUtilsManager : MonoBehaviour
 
             if(isPaused)
             {
-                if (Input.GetAxis("Debug Vertical") < 0 && !UIFocused)
+                if (Input.GetAxisRaw("Debug Vertical") != 0 && !UIFocused)
                 {
                     UIFocused = true;
                     EventSystem.current.SetSelectedGameObject(settingsFirst);
@@ -134,7 +134,7 @@ public class AppUtilsManager : MonoBehaviour
         isPaused = true;
         Time.timeScale= 0;
         settingsCanvas.SetActive(true);
-        startButton.SetActive(true);
+        settingsFirst.SetActive(true);
        
     }
 
@@ -142,6 +142,7 @@ public class AppUtilsManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale= 1;
+        RestartUI();
         settingsCanvas.SetActive(false);
     }
 
@@ -149,10 +150,26 @@ public class AppUtilsManager : MonoBehaviour
     {
         isPaused = true;
         Time.timeScale = 0;
-        UILayer.SetActive(false);
+        DeathHideUI();
         settingsCanvas.SetActive(true);
-        startButton.SetActive(false);
+        settingsFirst.SetActive(false);
         EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    void DeathHideUI()
+    {
+        UILayer.transform.GetChild(0).gameObject.SetActive(false);
+        UILayer.transform.GetChild(1).gameObject.SetActive(false);
+        UILayer.transform.GetChild(3).gameObject.SetActive(false);
+        UILayer.transform.GetChild(4).gameObject.SetActive(false);
+    }
+
+    void RestartUI()
+    {
+        UILayer.transform.GetChild(0).gameObject.SetActive(true);
+        UILayer.transform.GetChild(1).gameObject.SetActive(true);
+        UILayer.transform.GetChild(3).gameObject.SetActive(true);
+        UILayer.transform.GetChild(4).gameObject.SetActive(true);
     }
 
     private void OnApplicationPause(bool pause)

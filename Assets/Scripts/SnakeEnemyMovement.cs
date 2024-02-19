@@ -30,7 +30,6 @@ public class SnakeEnemyMovement : MonoBehaviour
         {
             rbArray[12].AddForce(2 * moveSpeed * Vector3.down);
             rbArray[16].AddForce(2 * moveSpeed * Vector3.down);
-            CheckBody();
 
             if (recoverAfterAttack)
             {
@@ -58,6 +57,7 @@ public class SnakeEnemyMovement : MonoBehaviour
             if (alert)
             {
                 SwitchToAlert();
+                CheckBody();
                 attackCountdown -= Time.deltaTime;
 
                 if (attackCountdown < 0)
@@ -164,8 +164,8 @@ public class SnakeEnemyMovement : MonoBehaviour
         {
             if (hit.transform.name == "SnakeBody")
             {
-               
-                rbArray[0].AddForce(4*moveSpeed * Vector3.up);
+                rbArray[0].AddForce(10*moveSpeed * Vector3.up);
+                print("up");
             }
             else return;
         }
