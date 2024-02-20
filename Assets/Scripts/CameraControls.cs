@@ -81,7 +81,7 @@ public class CameraControls : MonoBehaviour
             YRot += turn.x;
             mainCamTarget.localRotation = Quaternion.Euler(XRot, YRot, 0);
 
-            XRot = Mathf.Clamp(XRot, -45, 10);
+            XRot = Mathf.Clamp(XRot, -45, 30);
 
       
 
@@ -100,7 +100,7 @@ public class CameraControls : MonoBehaviour
             YRot += turn.x;
             mainCamTarget.localRotation = Quaternion.Euler(XRot, YRot, 0);
 
-            XRot = Mathf.Clamp(XRot, -45, 10);
+            XRot = Mathf.Clamp(XRot, -45, 30);
       
     }
 

@@ -76,7 +76,7 @@ public class FishEnemyMovement : MonoBehaviour
 
     IEnumerator SwitchToUnderwater()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         for(int i = 0;i < rbArray.Length; i++)
         {
             rbArray[i].useGravity = false;

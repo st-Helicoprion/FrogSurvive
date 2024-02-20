@@ -140,6 +140,7 @@ public class PlayerMovement : MonoBehaviour
                 if (!playerAudioSource.isPlaying)
                 {
                     playerAudioSource.pitch = Random.Range(1, 1.2f);
+                    playerAudioSource.volume = 0.2f;
                     playerAudioSource.PlayOneShot(waterMoveAudio);
 
                 }

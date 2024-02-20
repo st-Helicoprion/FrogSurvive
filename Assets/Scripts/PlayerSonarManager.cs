@@ -66,6 +66,7 @@ public class PlayerSonarManager : MonoBehaviour
         PlayerMovement playerMove = player.GetComponent<PlayerMovement>();
         playerMove.rb.AddForce(50*(sonarIndex+1) * playerMove.moveSpeed * Vector3.up);
         sonarAudioSource.pitch = 2;
+        sonarAudioSource.volume = 0.5f;
         sonarAudioSource.Play();
         for (int i = 0;i<=sonarIndex;i++)
         {
