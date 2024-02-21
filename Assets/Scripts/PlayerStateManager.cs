@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerStateManager : MonoBehaviour
 {
     public static bool isDead, isUnderwater, win;
-    public static bool speedUp, poisonUp;
+    public static bool speedUp, poisonUp, bump;
     public GameObject waterParticle;
     public TextMeshProUGUI stateText;
     public PlayerMovement playerMovement; public MeshRenderer[] mRenderer;
@@ -16,7 +16,7 @@ public class PlayerStateManager : MonoBehaviour
     public string[] stateName;
     public float powerUpLifetime, powerUpCountdown;
     public DigestPowerUpManager powerUpManager;
-
+    public Transform bumper;
 
     private void Start()
     {
@@ -73,6 +73,11 @@ public class PlayerStateManager : MonoBehaviour
             isDead = true;
         }
 
+        if(bump)
+        {
+            bump = false;
+            StartCoroutine(ActivateBumper());
+        }
         Color dimmerTrailColor = trail.startColor;
         dimmerTrailColor.a = 0.35f;
         trail.startColor = dimmerTrailColor;
@@ -145,6 +150,18 @@ public class PlayerStateManager : MonoBehaviour
         stateText.enabled = false;
         stateText.characterSpacing = 0;
        
+    }
+
+    IEnumerator ActivateBumper()
+    {
+        bumper.localScale = new Vector3(10, 10, 10);
+        yield return new WaitForSeconds(0.5f);
+        while(bumper.localScale.x > 0)
+        {
+            bumper.localScale = Vector3.Lerp(bumper.localScale, Vector3.zero, 2 * Time.deltaTime);
+            yield return null;
+        }
+        
     }
 
     private void OnTriggerEnter(Collider other)

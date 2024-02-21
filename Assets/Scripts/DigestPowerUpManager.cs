@@ -96,7 +96,11 @@ public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointer
         {
             if (playerSonar.sonarIndex < 2)
             {
-                playerSonar.IncreaseSonarIndex();
+                int refID = playerSonar.sonarIndex;
+                for(int i = 0;i<2-refID;i++)
+                {
+                    playerSonar.IncreaseSonarIndex();
+                }
             }
         }
         if (behaviorColorID == 2)

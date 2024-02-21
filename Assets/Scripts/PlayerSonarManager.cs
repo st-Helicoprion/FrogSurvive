@@ -125,6 +125,8 @@ public class PlayerSonarManager : MonoBehaviour
 
     }
 
+
+
     IEnumerator SonarSliderAnimation()
     {
         while(sonarSlider.value<1)

@@ -34,7 +34,7 @@ public class RainManager : MonoBehaviour
 
     void RollForRain()
     {
-        rainCheck = Random.Range(0, 6);
+        rainCheck = Random.Range(0, 11);
         rainLifetime= Random.Range(30,241);
 
         if (rainCheck == 1)

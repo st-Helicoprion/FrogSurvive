@@ -70,6 +70,7 @@ public class BossWeaponHitReporter : MonoBehaviour
             }
             else
             {
+                PlayerStateManager.bump = true;
                 RemovePlayerShield();
                 GroundCollisionResponseByType();
             }
