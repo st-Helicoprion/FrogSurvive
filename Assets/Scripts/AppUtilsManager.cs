@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class AppUtilsManager : MonoBehaviour
 {
     public static bool isPaused, enterDeath, UIFocused;
-    public GameObject settingsCanvas, UILayer,
+    public GameObject settingsCanvas, UILayer, pauseButton,
                       settingsFirst, deathFirst;
     public AudioSource UIAudioSource;
 
@@ -131,19 +131,22 @@ public class AppUtilsManager : MonoBehaviour
     }
     public void PauseGame()
     {
+        
         isPaused = true;
         Time.timeScale= 0;
         settingsCanvas.SetActive(true);
         settingsFirst.SetActive(true);
-       
+        pauseButton.SetActive(false);
     }
 
     public void ResumeGame()
     {
+       
         isPaused = false;
         Time.timeScale= 1;
         RestartUI();
         settingsCanvas.SetActive(false);
+        pauseButton.SetActive(true);
     }
 
     void ShowDeath()
@@ -154,6 +157,7 @@ public class AppUtilsManager : MonoBehaviour
         settingsCanvas.SetActive(true);
         settingsFirst.SetActive(false);
         EventSystem.current.SetSelectedGameObject(null);
+        pauseButton.SetActive(false);
     }
 
     void DeathHideUI()

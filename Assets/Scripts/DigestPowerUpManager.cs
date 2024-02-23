@@ -15,7 +15,7 @@ public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointer
     public PlayerSonarManager playerSonar;
     public PlayerHealthManager playerHealth;
     public PlayerStateManager playerState;
-    public bool isDown;
+    public bool isDown, touched;
     public AudioSource digestAudioSource;
     public AudioClip digestAudioClip;
 
@@ -65,7 +65,22 @@ public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointer
                     StopAnimateDigest();
                 }
             }
-            else return;
+            else
+            {
+                if (!touched)
+                {
+                    if (Input.GetKey(KeyCode.Return))
+                    {
+                        AnimateDigest();
+                    }
+                    else StopAnimateDigest();
+                }
+            }
+            
+            
+                
+            
+           
         }
         
         
@@ -126,11 +141,13 @@ public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointer
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        touched = true;
         AnimateDigest();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        touched= false;
         StopAnimateDigest();
     }
 }

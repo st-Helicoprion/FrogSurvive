@@ -8,7 +8,7 @@ public class PlayerStateManager : MonoBehaviour
     public static bool isDead, isUnderwater, win;
     public static bool speedUp, poisonUp, bump;
     public GameObject waterParticle;
-    public TextMeshProUGUI stateText;
+    public TextMeshPro stateText;
     public PlayerMovement playerMovement; public MeshRenderer[] mRenderer;
     public TrailRenderer trail; 
     public Material[] stateMaterials, playerMaterials; 
@@ -17,10 +17,11 @@ public class PlayerStateManager : MonoBehaviour
     public float powerUpLifetime, powerUpCountdown;
     public DigestPowerUpManager powerUpManager;
     public Transform bumper;
-
+   
     private void Start()
     {
         ResetPlayerState();
+        
     }
     // Update is called once per frame
     void Update()
@@ -41,7 +42,7 @@ public class PlayerStateManager : MonoBehaviour
 
         if(speedUp)
         {
-            playerMovement.speedMultiplier = 1.5f;
+            playerMovement.speedMultiplier = 2;
             trail.startColor = stateColor[2];
            
         }
@@ -94,6 +95,7 @@ public class PlayerStateManager : MonoBehaviour
         stateText.enabled = true;
         stateText.text = stateName[0];
         stateText.color = stateColor[0];
+        stateText.faceColor = stateColor[0];
         playerMovement.enabled= false;
     }
 
@@ -102,6 +104,7 @@ public class PlayerStateManager : MonoBehaviour
         stateText.enabled = true;
         stateText.text = stateName[5];
         stateText.color = stateColor[0];
+        stateText.faceColor = stateColor[0];
         playerMovement.enabled = false;
     }
     void ResetPlayerState()
@@ -131,6 +134,7 @@ public class PlayerStateManager : MonoBehaviour
         stateText.enabled= true;
         stateText.text = stateName[powTextID];
         stateText.color = stateColor[powColorID];
+        stateText.faceColor = stateColor[powColorID];
         yield return new WaitForSeconds(0.3f);
         StartCoroutine(StateTextAnimations());
         
@@ -154,7 +158,7 @@ public class PlayerStateManager : MonoBehaviour
 
     IEnumerator ActivateBumper()
     {
-        bumper.localScale = new Vector3(10, 10, 10);
+        bumper.localScale = new Vector3(8, 8, 8);
         yield return new WaitForSeconds(0.5f);
         while(bumper.localScale.x > 0)
         {

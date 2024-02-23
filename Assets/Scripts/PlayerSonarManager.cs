@@ -34,7 +34,7 @@ public class PlayerSonarManager : MonoBehaviour
             ReleaseSonar();
         }
 
-        if(Input.GetKeyDown(KeyCode.Joystick1Button5)|| Input.GetKeyDown(KeyCode.Joystick1Button4))
+        if(Input.GetKeyDown(KeyCode.Joystick1Button5)|| Input.GetKeyDown(KeyCode.Joystick1Button4)||Input.GetKeyDown(KeyCode.Space))
         {
             if(sonarIndex>-1)
             {
@@ -42,6 +42,8 @@ public class PlayerSonarManager : MonoBehaviour
             }
             
         }
+
+        
     }
 
     void SonarLifeCycle()
