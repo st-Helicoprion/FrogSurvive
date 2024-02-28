@@ -45,11 +45,11 @@ public class DigestPowerUpManager : MonoBehaviour, IPointerDownHandler, IPointer
 
             if (isDown)
             {
-                powerUpRing.fillAmount -= 0.05f;
+                powerUpRing.fillAmount -= 0.075f;
             }
             else
             {
-                powerUpRing.fillAmount += 0.05f;
+                powerUpRing.fillAmount += 0.075f;
             }
 
             string[] controllers = Input.GetJoystickNames();

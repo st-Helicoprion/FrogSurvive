@@ -20,7 +20,7 @@ public class CameraControls : MonoBehaviour
         if(Application.isMobilePlatform)
         {
             isPC = false;
-            rotSpeed *= 2;
+            rotSpeed =90;
         }
         else isPC= true;
 

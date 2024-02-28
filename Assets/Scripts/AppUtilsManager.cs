@@ -19,6 +19,7 @@ public class AppUtilsManager : MonoBehaviour
         PauseGame();
         enterDeath = false;
         UIFocused= false;
+        settingsCanvas.transform.GetChild(3).gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -166,6 +167,8 @@ public class AppUtilsManager : MonoBehaviour
         UILayer.transform.GetChild(1).gameObject.SetActive(false);
         UILayer.transform.GetChild(3).gameObject.SetActive(false);
         UILayer.transform.GetChild(4).gameObject.SetActive(false);
+
+        settingsCanvas.transform.GetChild(3).gameObject.SetActive(false);
     }
 
     void RestartUI()

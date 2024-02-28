@@ -14,6 +14,7 @@ public class PlayerSonarManager : MonoBehaviour
     public GameObject[] sonars;
     public float[] sonarRanges;
     public AudioSource sonarAudioSource;
+    public static bool hop;
   
 
     // Start is called before the first frame update
@@ -29,7 +30,7 @@ public class PlayerSonarManager : MonoBehaviour
     {
         SonarLifeCycle();
 
-        if(sonarSlider.value==1)
+        if(sonarSlider.value==sonarSlider.maxValue)
         {
             ReleaseSonar();
         }
@@ -65,6 +66,7 @@ public class PlayerSonarManager : MonoBehaviour
 
     void ReleaseSonar()
     {
+        hop = true;
         PlayerMovement playerMove = player.GetComponent<PlayerMovement>();
         playerMove.rb.AddForce(50*(sonarIndex+1) * playerMove.moveSpeed * Vector3.up);
         sonarAudioSource.pitch = 2;
@@ -131,7 +133,7 @@ public class PlayerSonarManager : MonoBehaviour
 
     IEnumerator SonarSliderAnimation()
     {
-        while(sonarSlider.value<1)
+        while(sonarSlider.value<sonarSlider.maxValue)
         {
             sonarSlider.value += 12.5f*Time.deltaTime;
             yield return null;

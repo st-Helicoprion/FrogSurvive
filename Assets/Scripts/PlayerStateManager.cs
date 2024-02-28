@@ -79,6 +79,12 @@ public class PlayerStateManager : MonoBehaviour
             bump = false;
             StartCoroutine(ActivateBumper());
         }
+
+        if(PlayerSonarManager.hop)
+        {
+            PlayerSonarManager.hop = false;
+            StartCoroutine(PlayerJump());
+        }
         Color dimmerTrailColor = trail.startColor;
         dimmerTrailColor.a = 0.35f;
         trail.startColor = dimmerTrailColor;
@@ -88,6 +94,16 @@ public class PlayerStateManager : MonoBehaviour
     void HealPlayer(float healAmount)
     {
         PlayerHealthManager.instance.playerHealth += healAmount;
+    }
+
+    IEnumerator PlayerJump()
+    {
+        stateText.enabled = true;
+        stateText.text = stateName[6];
+        stateText.color = stateColor[0];
+        stateText.faceColor = stateColor[0];
+        yield return new WaitForSeconds(0.2f);
+        StartCoroutine(StateTextAnimations(20, 40));
     }
 
     void PlayerDeath()
@@ -135,19 +151,19 @@ public class PlayerStateManager : MonoBehaviour
         stateText.text = stateName[powTextID];
         stateText.color = stateColor[powColorID];
         stateText.faceColor = stateColor[powColorID];
-        yield return new WaitForSeconds(0.3f);
-        StartCoroutine(StateTextAnimations());
+        yield return new WaitForSeconds(0.2f);
+        StartCoroutine(StateTextAnimations(50, 100));
         
         
     }
 
-    IEnumerator StateTextAnimations()
+    IEnumerator StateTextAnimations(int charDist, int splitSpeed)
     {
         Color animTextColor = stateText.color;
-        while (stateText.characterSpacing < 100)
+        while (stateText.characterSpacing < charDist)
         {
-            stateText.characterSpacing += 150 * Time.deltaTime;
-            animTextColor.a -= 1.5f * Time.deltaTime;
+            stateText.characterSpacing += splitSpeed * Time.deltaTime;
+            animTextColor.a -= 1.75f * Time.deltaTime;
             stateText.color = animTextColor;
             yield return null;
         }

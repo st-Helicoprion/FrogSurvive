@@ -20,10 +20,15 @@ public class BossWeaponHitReporter : MonoBehaviour
             OwlEnemyMovement.hitAltitude = transform.position;
         }
 
-        if(bossType== BossType.Snake||bossType==BossType.Fish) 
+        if(bossType== BossType.Snake) 
         {
             SnakeEnemyMovement.recoverAfterAttack= true;
             
+        }
+
+        if(bossType==BossType.Fish)
+        {
+            FishEnemyMovement.recoverAfterAttack= true;
         }
     }
 

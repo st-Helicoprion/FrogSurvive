@@ -31,6 +31,8 @@ public class SnakeEnemyMovement : MonoBehaviour
             rbArray[12].AddForce(2 * moveSpeed * Vector3.down);
             rbArray[16].AddForce(2 * moveSpeed * Vector3.down);
 
+            CheckBody();
+
             if (recoverAfterAttack)
             {
                 recoverAfterAttack = false;
@@ -57,7 +59,7 @@ public class SnakeEnemyMovement : MonoBehaviour
             if (alert)
             {
                 SwitchToAlert();
-                CheckBody();
+                
                 attackCountdown -= Time.deltaTime;
 
                 if (attackCountdown < 0)
@@ -114,15 +116,23 @@ public class SnakeEnemyMovement : MonoBehaviour
         snakeAudioSource.PlayOneShot(attackAudioClip);
         rbArray[0].AddForce(10*moveSpeed*direction);
         rbArray[8].AddForce(10 * moveSpeed * Vector3.down);
-        rbArray[0].useGravity = true;
 
+        rbArray[0].useGravity = true;
+        rbArray[1].useGravity = true;
+        rbArray[2].useGravity = true;
+        rbArray[3].useGravity = true;
     }
 
     void SwitchToAlert()
     {
        
         transform.LookAt(playerPos);
+
         rbArray[0].useGravity = false;
+        rbArray[1].useGravity= false;
+        rbArray[2].useGravity= false;
+        rbArray[3].useGravity= false;
+
         rbArray[0].AddForce(3*moveSpeed*Vector3.up);
         rbArray[6].AddForce(2*moveSpeed * Vector3.down);
 
@@ -142,7 +152,7 @@ public class SnakeEnemyMovement : MonoBehaviour
             rbArray[i].mass = 100;
         }
 
-        orientation = Random.Range(0, 5);
+        orientation = Random.Range(0, 2);
 
             if (orientation == 0)
             {
