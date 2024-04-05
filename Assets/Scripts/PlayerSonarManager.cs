@@ -67,8 +67,9 @@ public class PlayerSonarManager : MonoBehaviour
     void ReleaseSonar()
     {
         hop = true;
+        PlayerMovement.hop = true;
         PlayerMovement playerMove = player.GetComponent<PlayerMovement>();
-        playerMove.rb.AddForce(50*(sonarIndex+1) * playerMove.moveSpeed * Vector3.up);
+        playerMove.rb.AddForce(25*(sonarIndex+1) * playerMove.moveSpeed * Vector3.up);
         sonarAudioSource.pitch = 2;
         sonarAudioSource.volume = 0.5f;
         sonarAudioSource.Play();
@@ -119,7 +120,7 @@ public class PlayerSonarManager : MonoBehaviour
 
     public void IncreaseSonarIndex()
     {
-        sonarIndex++;
+        sonarIndex=2;
         sonarCounter = sonarCooldown;
         sonarSlider.interactable= true;
         sonarSliderGraphic.sprite = sonarStageGraphic[sonarIndex];

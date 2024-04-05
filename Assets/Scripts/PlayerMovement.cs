@@ -9,12 +9,12 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
     public float moveSpeed, speedMultiplier, airTime;
     public bool isPC;
-    public static bool isGrounded, isUnderwater;
+    public static bool isGrounded, isUnderwater, facePlant, hop;
     public Joystick joystick;
 
     [Header("Audio")]
     public AudioSource playerAudioSource;
-    public AudioSource waterAudioSource;
+    public AudioSource waterEnterAudioSource, waterExitAudioSource;
     public AudioClip footstepAudio, enterWaterAudio,
                      exitWaterAudio, waterMoveAudio;
 
@@ -29,8 +29,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else isPC= true;
 
+        
         isUnderwater= false;
         isGrounded= false;
+        facePlant = false;
     }
 
     // Update is called once per frame
@@ -60,14 +62,27 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.transform.forward = playerMoveDir;
                 Vector3 upwardForce = Vector3.zero;
+                Vector3 downwardForce = Vector3.zero;
 
-                if (isGrounded)//register movement input when not airborne
-                {
-                    upwardForce = 5 * moveSpeed * Vector3.up;
-                }
-
-                rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce);
+            if(isGrounded)
+            {
+                upwardForce = 5 * moveSpeed * Vector3.up;
             }
+              
+            if (airTime > 0&&!hop)
+            {
+                downwardForce = 0.5f*airTime*moveSpeed * Vector3.down;
+            }
+
+            if(facePlant)
+            {
+                upwardForce = 5 * moveSpeed * transform.up;
+                rb.AddForce(-50*playerMoveDir.normalized+upwardForce);
+            }
+            else
+            rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce+downwardForce);
+
+        }
             else return;
 
     }
@@ -96,38 +111,50 @@ public class PlayerMovement : MonoBehaviour
         if(!isGrounded&&!isUnderwater)
         {
             airTime += Time.deltaTime;
-
-            if(airTime>2)
-            {
-                airTime = 0;
-                rb.useGravity=true;
-                rb.AddForce(0, 0.5f*-speedMultiplier*moveSpeed, 0.5f*speedMultiplier*moveSpeed);
-            }
         }
     }
 
     void PhoneControlInputs()
     {
-            joystick.gameObject.SetActive(true);
+            if(AppUtilsManager.startUp)
+            {
+                joystick.gameObject.SetActive(false);
+            }
+            else
+                joystick.gameObject.SetActive(true);
 
             float zMove = joystick.Vertical;
             float xMove = joystick.Horizontal;
 
-            Vector3 playerMoveDir = mainCamera.forward * zMove + mainCamera.right * xMove;
+        Vector3 playerMoveDir = mainCamera.forward * zMove + mainCamera.right * xMove;
 
-            if (xMove != 0 || zMove != 0)//direction of view
+        if (xMove != 0 || zMove != 0)//direction of view
+        {
+            rb.transform.forward = playerMoveDir;
+            Vector3 upwardForce = Vector3.zero;
+            Vector3 downwardForce = Vector3.zero;
+
+            if (isGrounded)
             {
-                rb.transform.forward = playerMoveDir;
-                Vector3 upwardForce = Vector3.zero;
-
-                if (isGrounded)//register movement input when not airborne
-                {
-                    upwardForce = 5 * moveSpeed * Vector3.up;
-                }
-
-                rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce);
+                upwardForce = 5 * moveSpeed * Vector3.up;
             }
-            else return;
+
+            if (airTime > 0 && !hop)
+            {
+                downwardForce = 0.5f * airTime * moveSpeed * Vector3.down;
+            }
+
+
+            if (facePlant)
+            {
+                upwardForce = 5 * moveSpeed * transform.up;
+                rb.AddForce(-50 * playerMoveDir.normalized + upwardForce);
+            }
+            else
+                rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce + downwardForce);
+
+        }
+        else return;
         
     }
 
@@ -147,12 +174,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if(collision.transform.CompareTag("Ground"))
         {
             isGrounded = true;
-
+            airTime = 0;
+            hop = false;
            
         }
     }
@@ -176,13 +204,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if(other.CompareTag("Lake"))
         {
-           isUnderwater= true;
-            if (!waterAudioSource.isPlaying)
-            {   
-                waterAudioSource.pitch = Random.Range(1, 1.2f);
-                waterAudioSource.volume = 0.5f;
-                waterAudioSource.PlayOneShot(enterWaterAudio);
-
+            isUnderwater= true;
+            airTime = 0;
+            hop = false;  
+            if(!waterEnterAudioSource.isPlaying)
+            {
+                waterEnterAudioSource.pitch = Random.Range(1, 1.2f);
+                waterEnterAudioSource.volume = 0.5f;
+                waterEnterAudioSource.PlayOneShot(enterWaterAudio);
             }
             StartCoroutine(SwitchToUnderwater());
         }
@@ -194,12 +223,11 @@ public class PlayerMovement : MonoBehaviour
         {
             isUnderwater = false;
             rb.useGravity = true;
-            if (!waterAudioSource.isPlaying)
+            if(!waterExitAudioSource.isPlaying)
             {
-                waterAudioSource.pitch = Random.Range(1, 1.2f);
-                waterAudioSource.volume = 0.2f;
-                waterAudioSource.PlayOneShot(exitWaterAudio);
-
+                waterExitAudioSource.pitch = Random.Range(1, 1.2f);
+                waterExitAudioSource.volume = 0.2f;
+                waterExitAudioSource.PlayOneShot(exitWaterAudio);
             }
 
         }

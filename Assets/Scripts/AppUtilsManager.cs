@@ -7,9 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class AppUtilsManager : MonoBehaviour
 {
-    public static bool isPaused, enterDeath, UIFocused;
+    public static bool isPaused, enterDeath, UIFocused, startUp = true;
     public GameObject settingsCanvas, UILayer, pauseButton,
-                      settingsFirst, deathFirst;
+                      settingsFirst, deathFirst,
+                      startCanvas, startFirst;
     public AudioSource UIAudioSource;
 
     // Start is called before the first frame update
@@ -19,7 +20,8 @@ public class AppUtilsManager : MonoBehaviour
         PauseGame();
         enterDeath = false;
         UIFocused= false;
-        settingsCanvas.transform.GetChild(3).gameObject.SetActive(true);
+        //settingsCanvas.transform.GetChild(3).gameObject.SetActive(true);
+
     }
 
     // Update is called once per frame
@@ -47,6 +49,7 @@ public class AppUtilsManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Joystick1Button1))
             {
                 UIAudioSource.Play();
+                UIFocused = false;
                 if (!isPaused)
                 {
                     PauseGame();
@@ -56,10 +59,22 @@ public class AppUtilsManager : MonoBehaviour
 
             if(isPaused)
             {
-                if (Input.GetAxisRaw("Debug Vertical") != 0 && !UIFocused)
+                
+                if(startUp)
                 {
-                    UIFocused = true;
-                    EventSystem.current.SetSelectedGameObject(settingsFirst);
+                    if (Input.GetAxisRaw("Debug Vertical") != 0 && !UIFocused)
+                    {
+                        UIFocused = true;
+                        EventSystem.current.SetSelectedGameObject(startFirst);
+                    }
+                }
+                else
+                {
+                    if (Input.GetAxisRaw("Debug Vertical") != 0 && !UIFocused)
+                    {
+                        UIFocused = true;
+                        EventSystem.current.SetSelectedGameObject(settingsFirst);
+                    }
                 }
             }
 
@@ -80,7 +95,7 @@ public class AppUtilsManager : MonoBehaviour
         }
 
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-
+        startUp= true;
     }
 
     public IEnumerator ExitButtonAnimations(TextMeshProUGUI text)
@@ -135,9 +150,24 @@ public class AppUtilsManager : MonoBehaviour
         
         isPaused = true;
         Time.timeScale= 0;
-        settingsCanvas.SetActive(true);
-        settingsFirst.SetActive(true);
-        pauseButton.SetActive(false);
+
+        if(startUp)
+        {
+            startCanvas.SetActive(true);
+            startFirst.SetActive(true);
+            pauseButton.SetActive(false);
+            DeathHideUI();
+            settingsCanvas.transform.GetChild(3).gameObject.SetActive(true);
+        }
+        else
+        {
+            settingsCanvas.SetActive(true);
+            settingsFirst.SetActive(true);
+            pauseButton.SetActive(false);
+        }
+        
+
+
     }
 
     public void ResumeGame()
@@ -145,8 +175,10 @@ public class AppUtilsManager : MonoBehaviour
        
         isPaused = false;
         Time.timeScale= 1;
+        startUp= false;
         RestartUI();
         settingsCanvas.SetActive(false);
+        startCanvas.SetActive(false);
         pauseButton.SetActive(true);
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,11 +12,10 @@ public class FishEnemyMovement : MonoBehaviour
     public Rigidbody[] rbArray;
     public float moveSpeed, airTime,
                  attackInterval, attackCountdown,
-                 swimInterval, swimCountdown,
-                 locateInterval, locateCountdown;
+                 swimInterval, swimCountdown;
     public static bool recoverAfterAttack, alert, 
-                       isUnderwater, isBeached;
-    public Transform[] lakeMap;
+                       isUnderwater;
+
     public int orientation;
     public Vector3 newRotation;
 
@@ -23,6 +23,8 @@ public class FishEnemyMovement : MonoBehaviour
     void Start()
     {
         playerPos = GameObject.Find("Player").transform;
+        currentLake = null;
+        targetLake = null;
     }
 
     // Update is called once per frame
@@ -31,11 +33,6 @@ public class FishEnemyMovement : MonoBehaviour
         if(!AppUtilsManager.isPaused)
         {
             CheckGravityMultiplier();
-            if (isBeached)
-            {
-                locateInterval = 10;
-            }
-            else locateInterval = 60;
 
             if (recoverAfterAttack)
             {
@@ -46,7 +43,7 @@ public class FishEnemyMovement : MonoBehaviour
             {
                 swimCountdown -= Time.deltaTime;
 
-                if(swimCountdown<0)
+                if (swimCountdown < 0)
                 {
                     swimCountdown = swimInterval;
                     StartCoroutine(FishAnimation());
@@ -54,12 +51,18 @@ public class FishEnemyMovement : MonoBehaviour
 
             }
 
-            if(currentLake == targetLake&&!alert)
+            if (currentLake == targetLake)
             {
-                alert = true;
+                if (!alert)
+                    alert = true;
+            }
+            else
+            {
+                alert = false;
+                attackCountdown = attackInterval;
             }
 
-            if (alert)
+                if (alert)
             {
                 SwitchToAlert();
 
@@ -73,62 +76,28 @@ public class FishEnemyMovement : MonoBehaviour
             else
             {
 
-                locateCountdown -= Time.deltaTime;
-
-                if (locateCountdown < 0)
-                {
-                    locateCountdown = locateInterval;
-                    SwitchLakesJump();
-                }
-
                 rbArray[0].AddForce(moveSpeed * transform.forward);
+
+
             }
 
-          
+
         }
        
     }
 
-    void SwitchLakesJump()
-    {
-        if(targetLake==null)
-        {
-            int lakeNum = Random.Range(0, 3);
-            StartCoroutine(JumpSequence(lakeMap[lakeNum].position - transform.position));
-
-        }
-        else
-        {
-            StartCoroutine(JumpSequence(targetLake.position));
-        }
-
-    }
-
-    IEnumerator JumpSequence(Vector3 targetLake)
-    {
-        if(isUnderwater)
-        {
-            rbArray[0].AddForce(1000 * moveSpeed * Vector3.up);
-        }
-        else rbArray[0].AddForce(350 * moveSpeed * Vector3.up);
-        yield return new WaitForSeconds(1);
-        transform.LookAt(targetLake);
-        rbArray[0].AddForce(0.1f*moveSpeed * targetLake);
-
-    }
 
     void SwitchToAlert()
     {
         transform.LookAt(playerPos);
-       
+        
+        
     }
     IEnumerator RespondToSonar()
     {
         float moveToPlayerCount = 4;
         while (moveToPlayerCount > 0)
         {
-
-            print("detected");
             moveToPlayerCount--;
 
             fishHead.LookAt(playerPos);
@@ -157,26 +126,54 @@ public class FishEnemyMovement : MonoBehaviour
 
         if (orientation == 0)
         {
-            newRotation.y += 90;
-            transform.localRotation = Quaternion.Euler(newRotation);
+            StartCoroutine(TurnCoroutine(90));
         }
 
         if (orientation == 1)
         {
-            newRotation.y -= 90;
-            transform.localRotation = Quaternion.Euler(newRotation);
+            StartCoroutine(TurnCoroutine(-90));
         }
 
     }
+
+    IEnumerator TurnCoroutine(int turnAmount)
+    {   
+        if(turnAmount>0)
+        {
+            while (newRotation.y<turnAmount&&!alert)
+            {
+                newRotation.y += .5f;
+                newRotation.x = transform.localRotation.x;
+                newRotation.z = transform.localRotation.z;
+                transform.localRotation = Quaternion.Euler(newRotation);
+                yield return null;
+            }
+        }
+        else if(turnAmount<0)
+        {
+            while (newRotation.y > turnAmount&&!alert)
+            {
+                newRotation.y -= .5f;
+                newRotation.x = transform.localRotation.x;
+                newRotation.z = transform.localRotation.z;
+                transform.localRotation = Quaternion.Euler(newRotation);
+                yield return null;
+            }
+        }
+    }
+       
     void CheckGravityMultiplier()
     {
-        for(int i =0; i < rbArray.Length; i++)
-        {
-            if(isUnderwater)
+         if(isUnderwater)
             {
-                rbArray[i].drag = 2.5f;
+                for (int i = 0; i < rbArray.Length; i++)
+                {
+                    rbArray[i].drag = 3;
+                }
             }
             else
+            {
+                for (int i = 0; i < rbArray.Length; i++)
             {
                 if (rbArray[i].drag > 0)
                 {
@@ -184,28 +181,33 @@ public class FishEnemyMovement : MonoBehaviour
                 }
                 else rbArray[i].drag = 0;
             }
+            }
 
             if(!isUnderwater)
             {
                 airTime += Time.deltaTime;
 
-                if (airTime > 3)
+                if (airTime > 1)
                 {
-                    airTime = 0;
-                    rbArray[i].useGravity = true;
-                    rbArray[i].AddForce(0, -0.5f* moveSpeed, 0.5f* moveSpeed);
+                    
+                    for (int i = 0; i < rbArray.Length; i++)
+                    {
+                        rbArray[i].useGravity = true;
+                        rbArray[0].AddForce(airTime*moveSpeed*Vector3.down);
+                   
                 }
             }
-        }
+            }
+        
     }
 
     IEnumerator FishAnimation()
     {
-        rbArray[1].AddForce(5*moveSpeed*transform.right);
-        rbArray[3].AddForce(-5*moveSpeed*transform.right);
+        rbArray[1].AddForce(7*moveSpeed*transform.right);
+        rbArray[3].AddForce(-14*moveSpeed*transform.right);
         yield return new WaitForSeconds(1);
-        rbArray[1].AddForce(-5*moveSpeed * transform.right);
-        rbArray[3].AddForce(5*moveSpeed * transform.right);
+        rbArray[1].AddForce(-7*moveSpeed * transform.right);
+        rbArray[3].AddForce(14*moveSpeed * transform.right);
     }
 
     IEnumerator SwitchToUnderwater()
@@ -214,7 +216,7 @@ public class FishEnemyMovement : MonoBehaviour
         for(int i = 0;i < rbArray.Length; i++)
         {
             rbArray[i].useGravity = false;
-
+            rbArray[i].drag = 3;
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -227,6 +229,7 @@ public class FishEnemyMovement : MonoBehaviour
         if (other.CompareTag("Lake"))
         {
             isUnderwater = true;
+            airTime = 0;
             StartCoroutine(SwitchToUnderwater());
         }
         
@@ -237,6 +240,7 @@ public class FishEnemyMovement : MonoBehaviour
         if(other.CompareTag("Lake"))
         {
             isUnderwater = true;
+            airTime = 0;
             currentLake = other.transform;
         }
 
@@ -248,24 +252,9 @@ public class FishEnemyMovement : MonoBehaviour
         if (other.CompareTag("Lake"))
         {
             isUnderwater = false;
+            currentLake = null;
         }
        
     }
 
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.transform.CompareTag("Ground") && !isUnderwater)
-        {
-            isBeached = true;
-        }
-
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.transform.CompareTag("Ground") && !isUnderwater)
-        {
-            isBeached = false;
-        }
-    }
 }

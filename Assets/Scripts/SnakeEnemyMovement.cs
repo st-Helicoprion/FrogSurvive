@@ -115,23 +115,18 @@ public class SnakeEnemyMovement : MonoBehaviour
         snakeAudioSource.pitch = Random.Range(1, 1.3f);
         snakeAudioSource.PlayOneShot(attackAudioClip);
         rbArray[0].AddForce(10*moveSpeed*direction);
-        rbArray[8].AddForce(10 * moveSpeed * Vector3.down);
+        rbArray[8].AddForce(20 * moveSpeed * Vector3.down);
 
         rbArray[0].useGravity = true;
-        rbArray[1].useGravity = true;
-        rbArray[2].useGravity = true;
-        rbArray[3].useGravity = true;
+        
     }
 
     void SwitchToAlert()
     {
-       
+      
         transform.LookAt(playerPos);
 
         rbArray[0].useGravity = false;
-        rbArray[1].useGravity= false;
-        rbArray[2].useGravity= false;
-        rbArray[3].useGravity= false;
 
         rbArray[0].AddForce(3*moveSpeed*Vector3.up);
         rbArray[6].AddForce(2*moveSpeed * Vector3.down);
@@ -154,20 +149,42 @@ public class SnakeEnemyMovement : MonoBehaviour
 
         orientation = Random.Range(0, 2);
 
-            if (orientation == 0)
-            {
-                newRotation.y += 90;
-                transform.localRotation = Quaternion.Euler(newRotation);
-            }
+        if (orientation == 0)
+        {
+            StartCoroutine(TurnCoroutine(90));
+        }
 
-            if (orientation == 1)
-            {
-                newRotation.y -= 90;
-                transform.localRotation = Quaternion.Euler(newRotation);
-            }
+        if (orientation == 1)
+        {
+            StartCoroutine(TurnCoroutine(-90));
+        }
 
     }
-
+    IEnumerator TurnCoroutine(int turnAmount)
+    {
+        if (turnAmount > 0)
+        {
+            while (newRotation.y < turnAmount && !alert)
+            {
+                newRotation.y += .5f;
+                newRotation.x = transform.localRotation.x;
+                newRotation.z = transform.localRotation.z;
+                transform.localRotation = Quaternion.Euler(newRotation);
+                yield return null;
+            }
+        }
+        else if (turnAmount < 0)
+        {
+            while (newRotation.y > turnAmount && !alert)
+            {
+                newRotation.y -= .5f;
+                newRotation.x = transform.localRotation.x;
+                newRotation.z = transform.localRotation.z;
+                transform.localRotation = Quaternion.Euler(newRotation);
+                yield return null;
+            }
+        }
+    }
     void CheckBody()
     {
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, Mathf.Infinity))
@@ -222,7 +239,7 @@ public class SnakeEnemyMovement : MonoBehaviour
         {
             airTime += Time.deltaTime;
 
-            if (airTime > 3)
+            if (airTime > 1)
             {
                 airTime = 0;
                 for (int i = 0; i < rbArray.Length; i++)

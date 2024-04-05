@@ -113,6 +113,11 @@ public class PlayerStateManager : MonoBehaviour
         stateText.color = stateColor[0];
         stateText.faceColor = stateColor[0];
         playerMovement.enabled= false;
+
+        StopAllCoroutines();
+        Color textColor = stateText.color;
+        textColor.a = 1;
+        stateText.color = textColor;
     }
 
     void TempEndGame()
@@ -169,6 +174,8 @@ public class PlayerStateManager : MonoBehaviour
         }
         stateText.enabled = false;
         stateText.characterSpacing = 0;
+        animTextColor.a = 1;
+        stateText.color= animTextColor;
        
     }
 

@@ -277,7 +277,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "e00": 1.5,
+        "e00": 2.0,
         "e01": 2.0,
         "e02": 2.0,
         "e03": 2.0,
@@ -786,7 +786,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Scale",
     "m_StageCapability": 3,
-    "m_Value": 50.0,
+    "m_Value": 100.0,
     "m_DefaultValue": 500.0,
     "m_Labels": []
 }
@@ -859,9 +859,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1122.4000244140625,
-            "y": 324.79998779296877,
-            "width": 208.0,
+            "x": -1286.400146484375,
+            "y": 292.0,
+            "width": 208.0001220703125,
             "height": 312.79998779296877
         }
     },
@@ -1325,7 +1325,7 @@
     "m_StageCapability": 3,
     "m_Value": {
         "e00": 1.0,
-        "e01": 0.029999999329447748,
+        "e01": 0.019999999552965165,
         "e02": 1.0,
         "e03": 2.0,
         "e10": 2.0,

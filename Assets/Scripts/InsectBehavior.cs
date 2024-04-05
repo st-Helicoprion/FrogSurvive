@@ -35,6 +35,7 @@ public class InsectBehavior : MonoBehaviour
             behaviorColorID = 4;
             behaviorNameID = 4;
         }
+        
     }
 
 

@@ -41,8 +41,22 @@ public class WaterParticleAttractor : MonoBehaviour
 
     private void OnParticleTrigger()
     {
-        if(!particleAudioSource.isPlaying)
-        particleAudioSource.PlayOneShot(particleAudioClip);
+        List<ParticleSystem.Particle> enter = new();
+        int numEnter = pSystem.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
+
+        StartCoroutine(PlayAudioWithDelay(numEnter));
      
+    }
+
+    IEnumerator PlayAudioWithDelay(int numEnter)
+    {
+        while(numEnter>0)
+        {
+            numEnter--;
+            particleAudioSource.pitch = Random.Range(1.6f, 2f);
+            if(!particleAudioSource.isPlaying)
+            particleAudioSource.PlayOneShot(particleAudioClip);
+            yield return null;
+        }
     }
 }
