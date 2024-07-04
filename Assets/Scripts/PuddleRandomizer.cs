@@ -10,7 +10,8 @@ public class PuddleRandomizer : MonoBehaviour
     public GameObject[] puddles;
     public PuddleBehavior[] puddleScripts;
     public float timeToRandomize, randomizeCountdown;
-    public Transform playerPos;
+    public Transform playerPos, goalPos;
+    public Vector3 goalDir;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +31,8 @@ public class PuddleRandomizer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(randomizeCountdown>0)
+        
+        if (randomizeCountdown>0)
         {
             randomizeCountdown -= Time.deltaTime;
 
@@ -59,8 +61,9 @@ public class PuddleRandomizer : MonoBehaviour
         for (int i = 0; i < puddles.Length; i++)
         {
             yield return new WaitForSeconds(0.5f);
-            float randX = UnityEngine.Random.Range(-140, 141); 
-            float randZ = UnityEngine.Random.Range(-140, 141);
+            float randX = UnityEngine.Random.Range(0, 561); 
+            float randZ = UnityEngine.Random.Range(0, 561);
+            
             if (!puddleScripts[i].isFound)
             {
                 puddles[i].transform.position = new Vector3(playerPos.position.x, 0, playerPos.position.z) + new Vector3(randX, -2, randZ);

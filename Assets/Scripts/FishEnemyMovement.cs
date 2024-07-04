@@ -19,6 +19,10 @@ public class FishEnemyMovement : MonoBehaviour
     public int orientation;
     public Vector3 newRotation;
 
+    [Header("Audio")]
+    public AudioSource fishAudioSource;
+    public AudioClip attackAudioClip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +37,7 @@ public class FishEnemyMovement : MonoBehaviour
         if(!AppUtilsManager.isPaused)
         {
             CheckGravityMultiplier();
-
+            
             if (recoverAfterAttack)
             {
                 recoverAfterAttack = false;
@@ -51,10 +55,9 @@ public class FishEnemyMovement : MonoBehaviour
 
             }
 
-            if (currentLake == targetLake)
+            if (currentLake == targetLake&&targetLake!=null)
             {
-                if (!alert)
-                    alert = true;
+                alert = true;
             }
             else
             {
@@ -62,7 +65,7 @@ public class FishEnemyMovement : MonoBehaviour
                 attackCountdown = attackInterval;
             }
 
-                if (alert)
+            if (alert)
             {
                 SwitchToAlert();
 
@@ -93,26 +96,16 @@ public class FishEnemyMovement : MonoBehaviour
         
         
     }
-    IEnumerator RespondToSonar()
-    {
-        float moveToPlayerCount = 4;
-        while (moveToPlayerCount > 0)
-        {
-            moveToPlayerCount--;
-
-            fishHead.LookAt(playerPos);
-            Vector3 direction = playerPos.position - transform.position;
-            transform.forward = direction;
-            rbArray[0].AddForce(0.01f * moveSpeed * direction);
-            yield return null;
-        }
-
-    }
 
     void AttackPlayer()
     {
         attackCountdown = attackInterval;
-        Vector3 direction = playerPos.position - transform.position;
+        fishAudioSource.spatialBlend = 0.5f;
+        fishAudioSource.pitch = Random.Range(0.6f, 0.9f);
+        fishAudioSource.PlayOneShot(attackAudioClip);
+        float rand = Random.Range(-10, 10);
+        Vector3 offset = new(rand, rand, rand);
+        Vector3 direction = (playerPos.position+offset) - transform.position;
         rbArray[0].AddForce(20 * moveSpeed * direction);
     }
 
@@ -203,11 +196,11 @@ public class FishEnemyMovement : MonoBehaviour
 
     IEnumerator FishAnimation()
     {
-        rbArray[1].AddForce(7*moveSpeed*transform.right);
-        rbArray[3].AddForce(-14*moveSpeed*transform.right);
-        yield return new WaitForSeconds(1);
-        rbArray[1].AddForce(-7*moveSpeed * transform.right);
-        rbArray[3].AddForce(14*moveSpeed * transform.right);
+        rbArray[1].AddForce(14*moveSpeed*transform.right);
+        rbArray[3].AddForce(-56*moveSpeed*transform.right);
+        yield return new WaitForSeconds(2);
+        rbArray[1].AddForce(-14*moveSpeed * transform.right);
+        rbArray[3].AddForce(56*moveSpeed * transform.right);
     }
 
     IEnumerator SwitchToUnderwater()
@@ -221,11 +214,7 @@ public class FishEnemyMovement : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Sonar"))
-        {
-            StartCoroutine(RespondToSonar());
-        }
-
+       
         if (other.CompareTag("Lake"))
         {
             isUnderwater = true;

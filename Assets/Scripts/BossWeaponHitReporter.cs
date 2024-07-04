@@ -8,7 +8,6 @@ public class BossWeaponHitReporter : MonoBehaviour
 {
     public enum BossType { Snake, Owl, Fish, Spider };
     public BossType bossType;
-    public PlayerHealthManager playerHealth;
     public float damage;
     public VolumeProfile volumeProfile;
 
@@ -34,7 +33,7 @@ public class BossWeaponHitReporter : MonoBehaviour
 
     void DamagePlayerHealth()
     {
-        playerHealth.playerHealth -= damage;
+        PlayerHealthManager.instance.playerHealth -= damage;
 
         
         if(volumeProfile.TryGet<Vignette>(out Vignette vignette))

@@ -780,7 +780,7 @@ HingeJoint:
   m_ConnectedBody: {fileID: 4250946469731787141}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0.5, y: 0, z: 0}
-  m_Axis: {x: 0, y: 1, z: 0}
+  m_Axis: {x: 0, y: 1, z: 1}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: -0.5, y: 0.120000064, z: 0.000000059604645}
   m_UseSpring: 0
@@ -969,7 +969,7 @@ HingeJoint:
   m_ConnectedBody: {fileID: 8918173132416829639}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0.5, y: 0, z: 0}
-  m_Axis: {x: 0, y: 1, z: 0}
+  m_Axis: {x: 0, y: 1, z: 1}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: -0.5, y: -0.000000059604645, z: 0.00000023841858}
   m_UseSpring: 0
@@ -1120,7 +1120,7 @@ HingeJoint:
   m_ConnectedBody: {fileID: 4250946469731787141}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: -0.5, y: 0, z: 0}
-  m_Axis: {x: 0, y: 1, z: 0}
+  m_Axis: {x: 0, y: 1, z: 1}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: -0.5, y: 0.120000064, z: 0.000000059604645}
   m_UseSpring: 0
@@ -1278,7 +1278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPos: {fileID: 0}
   owlHead: {fileID: 4784407430474265958}
-  huntRadius: 50
+  huntRadius: 100
   moveSpeed: 25000
   attackInterval: 8
   attackCountdown: 8
@@ -1286,6 +1286,8 @@ MonoBehaviour:
   flapInterval: 1.5
   locateCountdown: 5
   locateInterval: 5
+  idleAudioCountdown: 15
+  idleAudioInterval: 15
   rb: {fileID: 4250946469731787141}
   wingRb:
   - {fileID: 2257914499362022033}
@@ -1295,9 +1297,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  huntRadiusRange: {x: 50, y: 100}
+  huntRadiusRange: {x: 100, y: 200}
   owlAudioSource: {fileID: 1637727897}
   attackAudioClip: {fileID: 8300000, guid: 72acb18ed67179547ae7e657759ccc14, type: 3}
+  idleAudioClip:
+  - {fileID: 8300000, guid: 376c65c3ded728f4b8aadd3ac77ecdd3, type: 3}
+  - {fileID: 8300000, guid: 0add875adf20ca140972006ee4fe64d3, type: 3}
 --- !u!82 &1637727897
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1309,7 +1314,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1.2
   Loop: 0
@@ -1519,7 +1524,7 @@ HingeJoint:
   m_ConnectedBody: {fileID: 2257914499362022033}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: -0.5, y: 0, z: 0}
-  m_Axis: {x: 0, y: 1, z: 0}
+  m_Axis: {x: 0, y: 1, z: 1}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0.5, y: -0.000000059604645, z: 0.00000023841858}
   m_UseSpring: 0

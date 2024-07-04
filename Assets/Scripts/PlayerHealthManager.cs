@@ -12,6 +12,9 @@ public class PlayerHealthManager : MonoBehaviour
     public float playerHealth;
     public VolumeProfile volumeProfile;
 
+    public AudioClip particleAudioClip;
+    public int enterPAmount;
+
     private void Awake()
     {
         if(instance)
@@ -49,6 +52,7 @@ public class PlayerHealthManager : MonoBehaviour
 
         }
 
+
     }
 
     void LimitPlayerHealth()
@@ -74,5 +78,25 @@ public class PlayerHealthManager : MonoBehaviour
     void FullHealPlayer()
     {
         playerHealth += 15*Time.deltaTime;
+    }
+
+    IEnumerator PlayParticleAudio()
+    {
+        AudioSource pAudio = gameObject.AddComponent<AudioSource>();
+        pAudio.pitch = Random.Range(2, 2.4f);
+        pAudio.PlayOneShot(particleAudioClip);
+        yield return new WaitForSeconds(1);
+        Destroy(pAudio);
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        if (other.CompareTag("Health"))
+        {
+            print("hit");
+            playerHealth += 3;
+            StartCoroutine(PlayParticleAudio());
+        }
+        else return;
     }
 }

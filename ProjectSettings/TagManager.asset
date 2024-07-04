@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Sonar
   - Button
+  - Health
   layers:
   - Default
   - TransparentFX
@@ -18,8 +19,8 @@ TagManager:
   - UI
   - Player
   - AuxCollisions
-  - 
-  - 
+  - Clouds
+  - Minimap
   - 
   - 
   - 

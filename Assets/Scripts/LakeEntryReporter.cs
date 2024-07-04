@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class LakeEntryReporter : MonoBehaviour
 {
+    private void Start()
+    {
+        FishEnemyMovement.targetLake = null;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -18,6 +23,7 @@ public class LakeEntryReporter : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             FishEnemyMovement.targetLake = null;
+           
             
         }
     }

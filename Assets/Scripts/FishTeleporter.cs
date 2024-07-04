@@ -16,33 +16,38 @@ public class FishTeleporter : MonoBehaviour
         {
             if (!FishEnemyMovement.alert)
             {
-                teleportCountdown -= Time.deltaTime;
+                
+                    teleportCountdown -= Time.deltaTime;
 
-                if(teleportCountdown<0)
-                {
-                    if(FishEnemyMovement.targetLake==null)
+                    if (teleportCountdown < 0)
                     {
-                        teleportCountdown = teleportInterval;
-                        RandomizeSpawnLake();
-                        TeleportFish();
-                        StartCoroutine(ActivateFishAfterTeleport());
-                    }
-                    else
-                    {
-                        for(int i = 0; i<lakeMap.Length; i++)
+                        if (FishEnemyMovement.targetLake == null)
                         {
-                            if (lakeMap[i].position==FishEnemyMovement.targetLake.GetChild(0).position)
+                            teleportCountdown = teleportInterval;
+                            RandomizeSpawnLake();
+                            TeleportFish();
+                            StartCoroutine(ActivateFishAfterTeleport());
+                        }
+                        else
+                        {
+                            for (int i = 0; i < lakeMap.Length; i++)
                             {
-                                teleportCountdown = teleportInterval;
-                                teleportID = i;
-                                TeleportFish();
-                                StartCoroutine(ActivateFishAfterTeleport());
+                                if (lakeMap[i].position == FishEnemyMovement.targetLake.GetChild(0).position)
+                                {
+                                    teleportCountdown = teleportInterval;
+                                    teleportID = i;
+                                    TeleportFish();
+                                    StartCoroutine(ActivateFishAfterTeleport());
+                                }
                             }
                         }
+
                     }
-                    
-                }
+                
+               
             }
+
+            
         }
         
     }
@@ -53,7 +58,8 @@ public class FishTeleporter : MonoBehaviour
     }
     void TeleportFish()
     {
-       fish.SetActive(false);
+        
+        fish.SetActive(false);
        fish.transform.position = lakeMap[teleportID].position;
        
     }
@@ -63,5 +69,6 @@ public class FishTeleporter : MonoBehaviour
         yield return new WaitForSeconds(2);
         fish.SetActive(true);
         fish.transform.GetChild(0).transform.localPosition = Vector3.zero;
+       
     }
 }

@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class PuddleBehavior : MonoBehaviour
 {
-    public GameObject beaconLine;
-    public bool isGrounded, isFound;
+    public GameObject beaconLine, objToDisable;
+    public bool isGrounded, isFound, isBeacon;
     public float healAmount;
 
     private void Update()
     {
-        if (!isGrounded)
+        if (!isGrounded&&!isBeacon)
             transform.position += new Vector3(0, 0.15f, 0);
     }
 
@@ -24,7 +24,7 @@ public class PuddleBehavior : MonoBehaviour
 
     public void DisablePuddle()
     {
-        gameObject.SetActive(false);
+        objToDisable.SetActive(false);
         beaconLine.SetActive(false);
         isFound = false;
         isGrounded= false;
@@ -48,7 +48,7 @@ public class PuddleBehavior : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Ground"))
+        if(other.CompareTag("Ground")&&!isBeacon)
         {
             isGrounded = true;
             CheckPuddleClipping();

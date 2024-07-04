@@ -69,7 +69,7 @@ public class PlayerSonarManager : MonoBehaviour
         hop = true;
         PlayerMovement.hop = true;
         PlayerMovement playerMove = player.GetComponent<PlayerMovement>();
-        playerMove.rb.AddForce(25*(sonarIndex+1) * playerMove.moveSpeed * Vector3.up);
+        playerMove.rb.AddForce(40*(sonarIndex+1) * playerMove.moveSpeed * Vector3.up);
         sonarAudioSource.pitch = 2;
         sonarAudioSource.volume = 0.5f;
         sonarAudioSource.Play();
@@ -87,11 +87,11 @@ public class PlayerSonarManager : MonoBehaviour
     {
         while (sonars[sonarIndex].transform.localScale.x < sonarRanges[sonarIndex])
         {
-            sonars[sonarIndex].transform.localScale += new Vector3(0.5f, 0.5f, 0.5f)*(sonarIndex+1);
+            sonars[sonarIndex].transform.localScale += new Vector3(1.5f, 1.5f, 1.5f)*(sonarIndex+1);
             Color sonarColor = sonars[sonarIndex].GetComponent<Renderer>().material.color;
             if(sonarColor.a > 0)
             {
-                sonarColor.a -= 0.007f;
+                sonarColor.a -= 0.002f;
             }
             sonars[sonarIndex].GetComponent<Renderer>().material.color = sonarColor;
             yield return null;
@@ -103,7 +103,7 @@ public class PlayerSonarManager : MonoBehaviour
     void ReloadSonar(int sonarIndex)
     {
         
-        sonars[sonarIndex].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+        sonars[sonarIndex].transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
         Color sonarColor = sonars[sonarIndex].GetComponent<Renderer>().material.color;
         sonarColor.a = 1;
         sonars[sonarIndex].GetComponent<Renderer>().material.color = sonarColor;

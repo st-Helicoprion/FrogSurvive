@@ -16,7 +16,6 @@ public class AppUtilsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 60;
         PauseGame();
         enterDeath = false;
         UIFocused= false;
@@ -158,6 +157,7 @@ public class AppUtilsManager : MonoBehaviour
             pauseButton.SetActive(false);
             DeathHideUI();
             settingsCanvas.transform.GetChild(3).gameObject.SetActive(true);
+            settingsCanvas.transform.GetChild(4).gameObject.SetActive(true);
         }
         else
         {
@@ -199,8 +199,10 @@ public class AppUtilsManager : MonoBehaviour
         UILayer.transform.GetChild(1).gameObject.SetActive(false);
         UILayer.transform.GetChild(3).gameObject.SetActive(false);
         UILayer.transform.GetChild(4).gameObject.SetActive(false);
+       
 
         settingsCanvas.transform.GetChild(3).gameObject.SetActive(false);
+        settingsCanvas.transform.GetChild(4).gameObject.SetActive(false);
     }
 
     void RestartUI()
@@ -209,6 +211,7 @@ public class AppUtilsManager : MonoBehaviour
         UILayer.transform.GetChild(1).gameObject.SetActive(true);
         UILayer.transform.GetChild(3).gameObject.SetActive(true);
         UILayer.transform.GetChild(4).gameObject.SetActive(true);
+       
     }
 
     private void OnApplicationPause(bool pause)

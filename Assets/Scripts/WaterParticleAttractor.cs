@@ -5,18 +5,16 @@ using UnityEngine;
 public class WaterParticleAttractor : MonoBehaviour
 {
     public ParticleSystem pSystem;
-    public ParticleSystem.Particle[] particles = new ParticleSystem.Particle[6];
+    public ParticleSystem.Particle[] particles = new ParticleSystem.Particle[10];
     public Transform playerPos;
     public AudioSource particleAudioSource;
-    public AudioClip puddleAudioClip;
-    public AudioClip particleAudioClip;
+    public AudioClip puddleAudioClip, particleAudioClip;
+    public List<ParticleSystem.Particle> enter = new();
+
     // Start is called before the first frame update
     void Start()
     {
        
-        pSystem.collision.AddPlane(GameObject.Find("Terrain").transform);
-        pSystem.trigger.AddCollider(GameObject.Find("Player").transform);
-
         playerPos = GameObject.Find("Player").transform;
 
         particleAudioSource.PlayOneShot(puddleAudioClip);
@@ -34,29 +32,10 @@ public class WaterParticleAttractor : MonoBehaviour
             {
                 particles[i].position += 8*Time.deltaTime*((playerPos.position - particles[i].position) / (particles[i].remainingLifetime));
             }
-                pSystem.SetParticles(particles, length);
+            pSystem.SetParticles(particles, length);
         } 
         
     }
 
-    private void OnParticleTrigger()
-    {
-        List<ParticleSystem.Particle> enter = new();
-        int numEnter = pSystem.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
-
-        StartCoroutine(PlayAudioWithDelay(numEnter));
-     
-    }
-
-    IEnumerator PlayAudioWithDelay(int numEnter)
-    {
-        while(numEnter>0)
-        {
-            numEnter--;
-            particleAudioSource.pitch = Random.Range(1.6f, 2f);
-            if(!particleAudioSource.isPlaying)
-            particleAudioSource.PlayOneShot(particleAudioClip);
-            yield return null;
-        }
-    }
+   
 }

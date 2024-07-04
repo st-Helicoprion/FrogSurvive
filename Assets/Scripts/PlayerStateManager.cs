@@ -91,11 +91,6 @@ public class PlayerStateManager : MonoBehaviour
 
     }
 
-    void HealPlayer(float healAmount)
-    {
-        PlayerHealthManager.instance.playerHealth += healAmount;
-    }
-
     IEnumerator PlayerJump()
     {
         stateText.enabled = true;
@@ -195,7 +190,6 @@ public class PlayerStateManager : MonoBehaviour
     {
         if(other.TryGetComponent(out PuddleBehavior puddle))
         {
-            HealPlayer(puddle.healAmount);
             puddle.DisablePuddle();
 
             Instantiate(waterParticle, transform.position, Quaternion.identity);

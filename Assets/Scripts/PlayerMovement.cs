@@ -73,16 +73,23 @@ public class PlayerMovement : MonoBehaviour
             {
                 downwardForce = 0.5f*airTime*moveSpeed * Vector3.down;
             }
+            else if (airTime > 0 && hop)
+            {
+                downwardForce = 0.2f * airTime * moveSpeed * Vector3.down;
+            }
 
-            if(facePlant)
+
+            if (facePlant)
             {
                 upwardForce = 5 * moveSpeed * transform.up;
-                rb.AddForce(-50*playerMoveDir.normalized+upwardForce);
+                rb.AddForce(-50 * playerMoveDir.normalized + upwardForce);
             }
+
             else
+
             rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce+downwardForce);
 
-        }
+            }
             else return;
 
     }
@@ -134,6 +141,8 @@ public class PlayerMovement : MonoBehaviour
             Vector3 upwardForce = Vector3.zero;
             Vector3 downwardForce = Vector3.zero;
 
+            
+
             if (isGrounded)
             {
                 upwardForce = 5 * moveSpeed * Vector3.up;
@@ -143,15 +152,21 @@ public class PlayerMovement : MonoBehaviour
             {
                 downwardForce = 0.5f * airTime * moveSpeed * Vector3.down;
             }
-
+            else if (airTime > 0 && hop)
+            {
+                downwardForce = 0.2f * airTime * moveSpeed * Vector3.down;
+            }
 
             if (facePlant)
             {
                 upwardForce = 5 * moveSpeed * transform.up;
                 rb.AddForce(-50 * playerMoveDir.normalized + upwardForce);
             }
+
             else
-                rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce + downwardForce);
+
+                
+            rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce + downwardForce);
 
         }
         else return;
@@ -181,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = true;
             airTime = 0;
             hop = false;
-           
+            
         }
     }
 

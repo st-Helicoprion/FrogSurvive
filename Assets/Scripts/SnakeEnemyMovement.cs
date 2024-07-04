@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class SnakeEnemyMovement : MonoBehaviour
 {
-    public Transform playerPos;
+    private Transform playerPos;
     public Rigidbody[] rbArray;
     public float huntRadius, moveSpeed, slitherOffset, airTime,
                  attackInterval, attackCountdown,
                  slitherInterval, slitherCountdown,
-                 locateInterval, locateCountdown;
+                 locateInterval, locateCountdown,
+                 idleAudioInterval, idleAudioCountdown;
     public static bool recoverAfterAttack, alert, isGrounded, isUnderwater;
     public int orientation;
     public Vector3 newRotation;
     public Vector2 huntRadiusRange;
+
+    [Header("Audio")]
     public AudioSource snakeAudioSource;
     public AudioClip attackAudioClip;
+    public AudioClip[] idleAudioClip;
 
     // Start is called before the first frame update
     void Start()
@@ -75,10 +79,16 @@ public class SnakeEnemyMovement : MonoBehaviour
                 rbArray[0].AddForce(6 * moveSpeed * transform.forward);
 
                 locateCountdown -= Time.deltaTime;
+                idleAudioCountdown -=Time.deltaTime;
 
                 if (locateCountdown < 0)
                 {
                     MoveToPlayer();
+                }
+
+                if(idleAudioCountdown<0&&!snakeAudioSource.isPlaying)
+                {
+                    PlayIdleAudio();
                 }
             }
 
@@ -110,8 +120,11 @@ public class SnakeEnemyMovement : MonoBehaviour
     void AttackPlayer()
     {
         attackCountdown = attackInterval;
-        Vector3 direction = playerPos.position - transform.position;
+        float rand = Random.Range(-10, 10);
+        Vector3 offset = new(rand, rand, rand);
+        Vector3 direction = (playerPos.position + offset) - transform.position;
 
+        snakeAudioSource.spatialBlend = 0.2f;
         snakeAudioSource.pitch = Random.Range(1, 1.3f);
         snakeAudioSource.PlayOneShot(attackAudioClip);
         rbArray[0].AddForce(10*moveSpeed*direction);
@@ -191,8 +204,8 @@ public class SnakeEnemyMovement : MonoBehaviour
         {
             if (hit.transform.name == "SnakeBody")
             {
-                rbArray[0].AddForce(10*moveSpeed * Vector3.up);
-                print("up");
+                rbArray[0].AddForce(20*moveSpeed * Vector3.up);
+                
             }
             else return;
         }
@@ -264,10 +277,18 @@ public class SnakeEnemyMovement : MonoBehaviour
     IEnumerator SlitherAnimation()
     {
 
-        rbArray[1].AddForce(moveSpeed * slitherOffset * (transform.right));
-        yield return new WaitForSeconds(1);
-        rbArray[1].AddForce(moveSpeed * slitherOffset * (-transform.right));
+        rbArray[1].AddForce(2*moveSpeed * slitherOffset * (transform.right));
+        yield return new WaitForSeconds(2);
+        rbArray[1].AddForce(2*moveSpeed * slitherOffset * (-transform.right));
       
+    }
+
+    void PlayIdleAudio()
+    {
+        idleAudioCountdown = idleAudioInterval;
+        snakeAudioSource.spatialBlend = 0.5f;
+        snakeAudioSource.pitch = Random.Range(0.7f, 1);
+        snakeAudioSource.PlayOneShot(idleAudioClip[Random.Range(0, idleAudioClip.Length)]);
     }
 
     private void OnTriggerEnter(Collider other)

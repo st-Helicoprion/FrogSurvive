@@ -56,8 +56,8 @@ public class InsectRandomizer : MonoBehaviour
         for (int i = 0; i < insectGroup.Length; i++)
         {
             yield return new WaitForSeconds(0.5f);
-            float randX = UnityEngine.Random.Range(-140, 141); 
-            float randZ = UnityEngine.Random.Range(-140, 141);
+            float randX = UnityEngine.Random.Range(0, 561); 
+            float randZ = UnityEngine.Random.Range(0, 561);
             insectGroup[i].transform.position = playerPos.position + new Vector3(randX, 0, randZ);
             insectGroup[i].transform.GetChild(0).localPosition = Vector3.zero;
             ReadyAllInsectsInGroup(i);

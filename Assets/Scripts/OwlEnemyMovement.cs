@@ -8,7 +8,8 @@ public class OwlEnemyMovement : MonoBehaviour
     public float huntRadius, moveSpeed, 
                  attackInterval, attackCountdown,
                  flapCountdown, flapInterval,
-                 locateCountdown, locateInterval;
+                 locateCountdown, locateInterval,
+                 idleAudioCountdown, idleAudioInterval;
     public static bool recoverAfterAttack, alert;
     public Rigidbody rb;
     public Rigidbody[] wingRb;
@@ -16,8 +17,11 @@ public class OwlEnemyMovement : MonoBehaviour
     public PuddleRandomizer waterMap;
     public Transform[] lakeMap;
     public Vector2 huntRadiusRange;
+
+    [Header("Audio")]
     public AudioSource owlAudioSource;
     public AudioClip attackAudioClip;
+    public AudioClip[] idleAudioClip;
 
 
     // Start is called before the first frame update
@@ -72,11 +76,15 @@ public class OwlEnemyMovement : MonoBehaviour
 
                 owlHead.localRotation = Quaternion.Euler(0, 0, 0);
                 locateCountdown -= Time.deltaTime;
-
+                idleAudioCountdown -= Time.deltaTime;
                 if (locateCountdown < 0)
                 {
                     locateCountdown = locateInterval;
                     LocateWater();
+                }
+                if (idleAudioCountdown < 0 && !owlAudioSource.isPlaying)
+                {
+                    PlayIdleAudio();
                 }
             }
 
@@ -115,10 +123,12 @@ public class OwlEnemyMovement : MonoBehaviour
     void AttackPlayer()
     {
         attackCountdown = attackInterval;
-
+        owlAudioSource.spatialBlend = 0.2f;
         owlAudioSource.pitch = Random.Range(1, 1.3f);
         owlAudioSource.PlayOneShot(attackAudioClip);
-        Vector3 direction = playerPos.position - transform.position;
+        float rand = Random.Range(-10, 10);
+        Vector3 offset = new(rand, rand, rand);
+        Vector3 direction = (playerPos.position+offset) - transform.position;
         transform.forward = direction;
       
         rb.AddForce(1.5f*moveSpeed * direction);
@@ -202,6 +212,14 @@ public class OwlEnemyMovement : MonoBehaviour
     {
         owlHead.LookAt(playerPos);
         transform.forward = playerPos.position;
+    }
+
+    void PlayIdleAudio()
+    {
+        idleAudioCountdown = idleAudioInterval;
+        owlAudioSource.spatialBlend = 0.5f;
+        owlAudioSource.pitch = Random.Range(0.7f, 1);
+        owlAudioSource.PlayOneShot(idleAudioClip[Random.Range(0, idleAudioClip.Length)]);
     }
 
     private void OnTriggerEnter(Collider other)

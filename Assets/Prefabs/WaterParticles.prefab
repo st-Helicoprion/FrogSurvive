@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 9098142143096059437}
   - component: {fileID: 2782496780907549986}
   - component: {fileID: -8781142169830594971}
-  - component: {fileID: 4416260490150652112}
+  - component: {fileID: 3210300916005451055}
   m_Layer: 0
   m_Name: WaterParticles
-  m_TagString: Untagged
+  m_TagString: Health
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3674,12 +3674,12 @@ ParticleSystem:
   CollisionModule:
     enabled: 1
     serializedVersion: 4
-    type: 0
+    type: 1
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
-    multiplyColliderForceByCollisionAngle: 1
+    multiplyColliderForceByCollisionAngle: 0
     m_Planes:
     - {fileID: 0}
     m_Dampen:
@@ -3841,20 +3841,20 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    minKillSpeed: 0
+    minKillSpeed: 10000
     maxKillSpeed: 10000
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
-    maxCollisionShapes: 256
+      m_Bits: 64
+    maxCollisionShapes: 3
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 2
     inside: 0
     outside: 0
@@ -4888,10 +4888,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pSystem: {fileID: 9098142143096059437}
   playerPos: {fileID: 0}
-  particleAudioSource: {fileID: 4416260490150652112}
+  particleAudioSource: {fileID: 3210300916005451055}
   puddleAudioClip: {fileID: 8300000, guid: 50a940d1d826e5d489cab60e96e7c740, type: 3}
   particleAudioClip: {fileID: 8300000, guid: 4d9bb13584c01264192caa703345121e, type: 3}
---- !u!82 &4416260490150652112
+--- !u!82 &3210300916005451055
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4904,7 +4904,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 0.8
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
