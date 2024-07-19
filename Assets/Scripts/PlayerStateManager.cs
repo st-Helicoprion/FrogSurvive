@@ -113,6 +113,7 @@ public class PlayerStateManager : MonoBehaviour
         Color textColor = stateText.color;
         textColor.a = 1;
         stateText.color = textColor;
+        stateText.characterSpacing = 0;
     }
 
     void TempEndGame()
@@ -176,7 +177,7 @@ public class PlayerStateManager : MonoBehaviour
 
     IEnumerator ActivateBumper()
     {
-        bumper.localScale = new Vector3(8, 8, 8);
+        bumper.localScale = new Vector3(20, 20, 20);
         yield return new WaitForSeconds(0.5f);
         while(bumper.localScale.x > 0)
         {

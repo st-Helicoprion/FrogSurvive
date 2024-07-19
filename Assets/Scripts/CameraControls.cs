@@ -117,7 +117,7 @@ public class CameraControls : MonoBehaviour
     {
       if(mainCamera.transform.localPosition.z>-6)
         {
-            mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, new Vector3(0, 2, -6), 5*Time.deltaTime);
+            mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, new Vector3(0, 1, -6), 5*Time.deltaTime);
         }
            
       

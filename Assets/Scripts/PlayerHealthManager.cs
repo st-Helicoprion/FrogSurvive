@@ -77,7 +77,14 @@ public class PlayerHealthManager : MonoBehaviour
 
     void FullHealPlayer()
     {
-        playerHealth += 15*Time.deltaTime;
+        if(playerHealth > 0)
+        {
+            playerHealth += 15 * Time.deltaTime;
+        }
+        else
+        {
+            PlayerStateManager.isDead = true;
+        }
     }
 
     IEnumerator PlayParticleAudio()

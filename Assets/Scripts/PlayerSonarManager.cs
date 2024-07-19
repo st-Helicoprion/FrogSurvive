@@ -14,7 +14,8 @@ public class PlayerSonarManager : MonoBehaviour
     public GameObject[] sonars;
     public float[] sonarRanges;
     public AudioSource sonarAudioSource;
-    public static bool hop;
+    public static bool hop, strike;
+    public GameObject reticle;
   
 
     // Start is called before the first frame update
@@ -23,6 +24,8 @@ public class PlayerSonarManager : MonoBehaviour
         sonarCounter = sonarCooldown;
         sonarSliderGraphic.gameObject.SetActive(false);
         sonarSlider.interactable = false;
+        strike= false;
+        reticle.SetActive(false);
     }
 
     // Update is called once per frame
@@ -30,21 +33,35 @@ public class PlayerSonarManager : MonoBehaviour
     {
         SonarLifeCycle();
 
-        if(sonarSlider.value==sonarSlider.maxValue)
+        if (sonarSlider.value == sonarSlider.maxValue)
         {
             ReleaseSonar();
         }
 
-        if(Input.GetKeyDown(KeyCode.Joystick1Button5)|| Input.GetKeyDown(KeyCode.Joystick1Button4)||Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Joystick1Button5) || Input.GetKeyDown(KeyCode.Joystick1Button4) || Input.GetKeyDown(KeyCode.Space))
         {
-            if(sonarIndex>-1)
+            if (!PlayerMovement.hop||PlayerSonarManager.strike)
             {
-                StartCoroutine(SonarSliderAnimation());
+                if (sonarIndex > -1)
+                {
+                    StartCoroutine(SonarSliderAnimation());
+                }
             }
-            
+            else
+            {
+                if (!strike)
+                {
+                    Decapitate();
+                }
+                else return;
+            }
         }
-
         
+        if(!PlayerMovement.hop)
+        {
+            reticle.SetActive(false);
+        }
+      
     }
 
     void SonarLifeCycle()
@@ -67,12 +84,14 @@ public class PlayerSonarManager : MonoBehaviour
     void ReleaseSonar()
     {
         hop = true;
+        strike = false;
         PlayerMovement.hop = true;
         PlayerMovement playerMove = player.GetComponent<PlayerMovement>();
-        playerMove.rb.AddForce(40*(sonarIndex+1) * playerMove.moveSpeed * Vector3.up);
+        playerMove.rb.AddForce(50*(sonarIndex+1) * playerMove.moveSpeed * Vector3.up);
         sonarAudioSource.pitch = 2;
         sonarAudioSource.volume = 0.5f;
         sonarAudioSource.Play();
+        reticle.SetActive(true);
         for (int i = 0;i<=sonarIndex;i++)
         {
             sonars[i].transform.position = player.position;
@@ -142,5 +161,17 @@ public class PlayerSonarManager : MonoBehaviour
         sonarSlider.value= 0;
        
 
+    }
+
+    public void Decapitate()
+    { 
+        strike = true;
+        reticle.SetActive(false);
+        PlayerMovement playerMove = player.GetComponent<PlayerMovement>();
+        playerMove.rb.velocity = Vector3.zero;
+        playerMove.rb.AddForce(100 * 3 * playerMove.moveSpeed * Camera.main.transform.forward);
+        sonarAudioSource.pitch = 2;
+        sonarAudioSource.volume = 0.5f;
+        sonarAudioSource.Play();
     }
 }

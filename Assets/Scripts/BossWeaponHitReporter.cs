@@ -28,6 +28,7 @@ public class BossWeaponHitReporter : MonoBehaviour
         if(bossType==BossType.Fish)
         {
             FishEnemyMovement.recoverAfterAttack= true;
+
         }
     }
 

@@ -2000,7 +2000,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 1.0000002, z: 1.0000001}
+  m_Size: {x: 1.2, y: 1.0000002, z: 1.5}
   m_Center: {x: 0, y: -0.000015258789, z: 0.00000011920929}
 --- !u!54 &8084469272195684950
 Rigidbody:
@@ -2016,7 +2016,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &5297580151185593580
 GameObject:
@@ -2928,7 +2928,6 @@ GameObject:
   - component: {fileID: 573117179157880512}
   - component: {fileID: 6558423389351350795}
   - component: {fileID: 4561524412500956286}
-  - component: {fileID: 8863191453050520075}
   - component: {fileID: 474079912394761763}
   - component: {fileID: 6738825500972471607}
   - component: {fileID: 2931549120567364236}
@@ -2947,7 +2946,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8616322236069741475}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.495, z: 0.467}
+  m_LocalPosition: {x: 0, y: -0.579, z: 0.467}
   m_LocalScale: {x: 0.8, y: 0.7, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3004,21 +3003,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8863191453050520075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8616322236069741475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38acdb28b96a35a48b802c113427f034, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bossType: 2
-  damage: 100
-  volumeProfile: {fileID: 11400000, guid: eedffeb681c50e64e9aecb85801e83d7, type: 2}
 --- !u!65 &474079912394761763
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3074,7 +3058,7 @@ HingeJoint:
   m_UseLimits: 1
   m_Limits:
     min: -45
-    max: 15
+    max: -5
     bounciness: 0
     bounceMinVelocity: 0.2
     contactDistance: 0

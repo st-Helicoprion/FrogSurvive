@@ -78,16 +78,20 @@ public class PlayerMovement : MonoBehaviour
                 downwardForce = 0.2f * airTime * moveSpeed * Vector3.down;
             }
 
-
-            if (facePlant)
+            if (!hop||PlayerSonarManager.strike)
             {
-                upwardForce = 5 * moveSpeed * transform.up;
-                rb.AddForce(-50 * playerMoveDir.normalized + upwardForce);
+                if (facePlant)
+                {
+                    upwardForce = 5 * moveSpeed * transform.up;
+                    rb.AddForce(-50 * playerMoveDir.normalized + upwardForce);
+                }
+
+                else
+
+                    rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce + downwardForce);
+
             }
-
-            else
-
-            rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce+downwardForce);
+            else return;
 
             }
             else return;
@@ -157,16 +161,22 @@ public class PlayerMovement : MonoBehaviour
                 downwardForce = 0.2f * airTime * moveSpeed * Vector3.down;
             }
 
-            if (facePlant)
+            if (!hop||PlayerSonarManager.strike)
             {
-                upwardForce = 5 * moveSpeed * transform.up;
-                rb.AddForce(-50 * playerMoveDir.normalized + upwardForce);
+                if (facePlant)
+                {
+                    upwardForce = 5 * moveSpeed * transform.up;
+                    rb.AddForce(-50 * playerMoveDir.normalized + upwardForce);
+                }
+
+                else
+
+
+                    rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce + downwardForce);
+
             }
+            else return;
 
-            else
-
-                
-            rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce + downwardForce);
 
         }
         else return;
@@ -196,6 +206,7 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = true;
             airTime = 0;
             hop = false;
+            PlayerSonarManager.strike= false;
             
         }
     }
