@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayerStateManager : MonoBehaviour
 {
     public static bool isDead, isUnderwater, win;
-    public static bool speedUp, poisonUp, bump;
-    public GameObject waterParticle;
+    public static bool speedUp, poisonUp, bump, hunter;
+    public GameObject waterParticle, decapitator;
     public TextMeshPro stateText;
     public PlayerMovement playerMovement; public MeshRenderer[] mRenderer;
     public TrailRenderer trail; 
@@ -83,7 +83,7 @@ public class PlayerStateManager : MonoBehaviour
         if(PlayerSonarManager.hop)
         {
             PlayerSonarManager.hop = false;
-            StartCoroutine(PlayerJump());
+           
         }
         Color dimmerTrailColor = trail.startColor;
         dimmerTrailColor.a = 0.35f;
@@ -103,6 +103,7 @@ public class PlayerStateManager : MonoBehaviour
 
     void PlayerDeath()
     {
+        decapitator.SetActive(false);
         stateText.enabled = true;
         stateText.text = stateName[0];
         stateText.color = stateColor[0];
@@ -118,6 +119,7 @@ public class PlayerStateManager : MonoBehaviour
 
     void TempEndGame()
     {
+        decapitator.SetActive(false);
         stateText.enabled = true;
         stateText.text = stateName[5];
         stateText.color = stateColor[0];

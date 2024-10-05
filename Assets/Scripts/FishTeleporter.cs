@@ -66,9 +66,9 @@ public class FishTeleporter : MonoBehaviour
 
     IEnumerator ActivateFishAfterTeleport()
     {
+        fish.transform.GetChild(0).transform.localPosition = Vector3.zero;
         yield return new WaitForSeconds(2);
         fish.SetActive(true);
-        fish.transform.GetChild(0).transform.localPosition = Vector3.zero;
        
     }
 }

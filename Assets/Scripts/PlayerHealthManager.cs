@@ -47,6 +47,7 @@ public class PlayerHealthManager : MonoBehaviour
             }
             else
             {
+                
                 FullHealPlayer();
             }
 
@@ -63,6 +64,8 @@ public class PlayerHealthManager : MonoBehaviour
 
     void PlayerHealthDecay()
     {
+        print(PlayerStateManager.isUnderwater);
+        print(RainManager.isRaining);
         if (playerHealth > 0)
         {
             playerHealth -= Time.deltaTime;

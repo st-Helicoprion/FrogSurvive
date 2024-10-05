@@ -10,6 +10,7 @@ TagManager:
   - Sonar
   - Button
   - Health
+  - Radio
   layers:
   - Default
   - TransparentFX

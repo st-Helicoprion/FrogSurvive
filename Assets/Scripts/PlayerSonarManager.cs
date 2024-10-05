@@ -35,7 +35,7 @@ public class PlayerSonarManager : MonoBehaviour
 
         if (sonarSlider.value == sonarSlider.maxValue)
         {
-            ReleaseSonar();
+            StartCoroutine(ReleaseSonar());
         }
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button5) || Input.GetKeyDown(KeyCode.Joystick1Button4) || Input.GetKeyDown(KeyCode.Space))
@@ -81,12 +81,14 @@ public class PlayerSonarManager : MonoBehaviour
         }
     }
 
-    void ReleaseSonar()
+    IEnumerator ReleaseSonar()
     {
         hop = true;
         strike = false;
         PlayerMovement.hop = true;
         PlayerMovement playerMove = player.GetComponent<PlayerMovement>();
+        playerMove.rb.velocity = Vector3.zero;
+        yield return new WaitForEndOfFrame();
         playerMove.rb.AddForce(50*(sonarIndex+1) * playerMove.moveSpeed * Vector3.up);
         sonarAudioSource.pitch = 2;
         sonarAudioSource.volume = 0.5f;
