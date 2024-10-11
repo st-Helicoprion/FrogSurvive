@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
     public float moveSpeed, speedMultiplier, airTime;
     public bool isPC;
-    public static bool isGrounded, isUnderwater, facePlant, hop;
+    public static bool isGrounded, isUnderwater, hop;
     public Joystick joystick;
 
     [Header("Audio")]
@@ -32,7 +32,6 @@ public class PlayerMovement : MonoBehaviour
         
         isUnderwater= false;
         isGrounded= false;
-        facePlant = false;
     }
 
     // Update is called once per frame
@@ -80,13 +79,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (!hop||PlayerSonarManager.strike)
             {
-                if (facePlant)
-                {
-                    upwardForce = 5 * moveSpeed * transform.up;
-                    rb.AddForce(-50 * playerMoveDir.normalized + upwardForce);
-                }
-
-                else
+   
 
                     rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce + downwardForce);
 
@@ -163,14 +156,6 @@ public class PlayerMovement : MonoBehaviour
 
             if (!hop||PlayerSonarManager.strike)
             {
-                if (facePlant)
-                {
-                    upwardForce = 5 * moveSpeed * transform.up;
-                    rb.AddForce(-50 * playerMoveDir.normalized + upwardForce);
-                }
-
-                else
-
 
                     rb.AddForce(speedMultiplier * moveSpeed * playerMoveDir.normalized + upwardForce + downwardForce);
 
@@ -182,7 +167,6 @@ public class PlayerMovement : MonoBehaviour
         else return;
         
     }
-
     void UnderwaterMovementAudio()
     {
         if(isUnderwater)

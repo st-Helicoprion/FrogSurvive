@@ -9,8 +9,9 @@ public class CameraControls : MonoBehaviour
     public float chaseSpeed, rotSpeed;
     public float XRot, YRot;
     public Vector2 turn;
-    public bool isPC, isFree;
+    public bool isPC, isFree, facePlant;
     public Joystick joystick;
+    public GroundKissingReporter wallReporter;
 
 
     // Start is called before the first frame update
@@ -24,6 +25,8 @@ public class CameraControls : MonoBehaviour
         }
         else isPC= true;
 
+        wallReporter.OnFacePlant += SwitchToClimbingCamera;
+        wallReporter.OnSwitchedToClimb += SwitchedToClimb;
     }
 
     // Update is called once per frame
@@ -47,11 +50,11 @@ public class CameraControls : MonoBehaviour
         }
         else chaseSpeed = 0;
 
-        if(isPC)
+        if(isPC&&!facePlant)
         {
             PCRotateCamera();
         }
-        else PhoneRotateCamera();
+        else if(!isPC&&!facePlant)PhoneRotateCamera();
     }
 
     void PCRotateCamera()
@@ -123,6 +126,16 @@ public class CameraControls : MonoBehaviour
       
     }
 
+    private void SwitchToClimbingCamera()
+    {
+        facePlant = true;
+       XRot =-45;
+    }
+
+    private void SwitchedToClimb()
+    {
+        facePlant = false;
+    }
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Ground"))

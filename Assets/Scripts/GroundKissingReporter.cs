@@ -1,25 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundKissingReporter : MonoBehaviour
 {
+    public Action OnFacePlant;
+    public Action OnSwitchedToClimb;
+
     private void OnTriggerStay(Collider other)
     {
         if(other.CompareTag("Ground"))
         {
-            PlayerMovement.facePlant = true;
+            OnFacePlant?.Invoke();
         }
         
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Ground"))
+        if(other.CompareTag("Ground"))
         {
-            PlayerMovement.facePlant = false;
+            OnSwitchedToClimb?.Invoke();
         }
-        
     }
 
 }
